@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['protein-matcher.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'background_task',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

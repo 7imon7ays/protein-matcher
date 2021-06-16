@@ -4,10 +4,13 @@ from django.http import HttpResponse
 from django.views.generic import View
 from django.conf import settings
 
+from matcher.background_tasks import find_matching_protein
+
 
 class ProteinsView(View):
     def get(self, request):
         dna_sequence = request.GET.get('dnaSequence')
+        find_matching_protein(dna_sequence, 1)
         return HttpResponse(dna_sequence)
 
 class FrontendAppView(View):
