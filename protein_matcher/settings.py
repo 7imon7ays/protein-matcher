@@ -28,9 +28,7 @@ SECRET_KEY = 'django-insecure-o1y3xeaugwxrmo^l(8)_hxetdljg)4(sgi5--%fww$cm1@et!s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# TODO: Restrict hosts.
-ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'protein-matcher.herokuapp.com']
+ALLOWED_HOSTS = ['protein-matcher.herokuapp.com']
 
 
 # Application definition

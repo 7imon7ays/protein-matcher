@@ -3,6 +3,7 @@ import App from './App';
 
 test('renders learn react link', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
+  // TODO: Match placeholder text.
+  const linkElement = screen.getByText(/DNA/i);
   expect(linkElement).toBeInTheDocument();
 });

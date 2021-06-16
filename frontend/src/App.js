@@ -1,5 +1,8 @@
 import '@fontsource/roboto';
-import { Box, Button, Grid, TextField } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
+
+import DnaUpload from './DnaUpload';
+import SearchHistory from './SearchHistory';
 
 import logo from './logo.svg';
 import './App.css';
@@ -20,21 +23,8 @@ function App() {
             </header>
           </Box>
         </Grid>
-        <form>
-          <Grid item xs={12}>
-            <Box m={5}>
-              <TextField
-                 variant="filled"
-                 placeholder="Enter a DNA sequence"
-                 fullWidth id="dna_sequence"
-                 inputProps={{ style: { 'background-color': 'white' } }}
-              />
-            </Box>
-            <Button color="primary" variant="contained">
-              Find a matching protein
-            </Button>
-          </Grid>
-        </form>
+        <DnaUpload />
+        <SearchHistory />
       </Grid>
     </div>
   );

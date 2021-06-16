@@ -5,6 +5,11 @@ from django.views.generic import View
 from django.conf import settings
 
 
+class ProteinsView(View):
+    def get(self, request):
+        dna_sequence = request.GET.get('dnaSequence')
+        return HttpResponse(dna_sequence)
+
 class FrontendAppView(View):
     """
     Serves the compiled frontend entry point (only works if you have run `yarn
