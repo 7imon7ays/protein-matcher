@@ -27,6 +27,8 @@ services:
     command: ["python", "manage.py", "process_tasks"]
     environment:
       - DJANGO_DEVELOPMENT=true
+    volumes:
+      - .:/code
     depends_on:
       - web
   frontend:

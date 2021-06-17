@@ -17,7 +17,7 @@ export default class DnaUpload extends React.Component {
   }
 
   runSearch() {
-    axios.get('proteins', { params: { dnaSequence: this.state.searchString } })
+    axios.post('searches', { dnaSequence: this.state.searchString })
     .then(response => {
       // TODO: Display result.
       console.log(response);

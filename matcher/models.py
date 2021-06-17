@@ -1,11 +1,10 @@
-import xml.etree.ElementTree as ET
-
-from Bio.Blast.NCBIWWW import qblast
+from django.contrib.auth.models import User
 from django.db import models
 
 
-class Protein(models.Model):
-  accn_strings_to_ids = {
+class Search(models.Model):
+  # TODO: Load from a config file.
+  protein_accn_strings_to_ids = {
     'JF411744': 'NC_000852',
     'AJ890364': 'NC_007346',
     'EF101928': 'NC_008724',
@@ -16,19 +15,34 @@ class Protein(models.Model):
     'JN258408': 'NC_023640',
     'JN638751': 'NC_023719',
     'KR921745': 'NC_027867',
-}
+  }
 
-  @classmethod
-  def find_by_dna_sequence(cls, dna_sequence):
-    qblast_response = qblast('blastn', 'nr', dna_sequence, entrez_query=cls._build_entrez_query())
-    blast_result_xml = ET.fromstring(qblast_response.read())
-    for hit_accession in blast_result_xml.iter(tag='Hit_accession'):
-      print('Matched DNA sequence to accession string "%s".' % hit_accession.text)
-      if hit_accession.text in cls.accn_strings_to_ids:
-        # TODO: Return a proper protein object?
-        print('Mapping this string to "%s."' % cls.accn_strings_to_ids[hit_accession.text])
-        return cls.accn_strings_to_ids[hit_accession.text]
+  WAIT = 'WAIT'
+  RUN = 'RUN'
+  PAUSE = 'PAUSE'
+  DONE = 'DONE'
 
-  @classmethod
-  def _build_entrez_query(cls):
-    return ' OR '.join([protein_id + '[accession]' for protein_id in cls.accn_strings_to_ids.keys()])
+  SEARCH_STATES = [
+    (WAIT, 'Waiting',),
+    (RUN, 'Running',),
+    (PAUSE, 'Pausing',),
+    (DONE, 'Done',),
+  ]
+
+  accession_string = models.CharField(max_length=20)
+  dna_sequence = models.TextField()
+  protein_id = models.CharField(max_length=20)
+  user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+  state = models.CharField(max_length=5, choices=SEARCH_STATES, default=WAIT)
+
+  def mark_run(self):
+    self.state=self.RUN
+    self.save()
+
+  def mark_pause(self):
+    self.state=self.PAUSE
+    self.save()
+
+  def mark_done(self):
+    self.state=self.DONE
+    self.save()

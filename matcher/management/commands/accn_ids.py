@@ -3,14 +3,14 @@ import json
 from Bio import Entrez
 from django.core.management import BaseCommand
 
-from matcher.models import Protein
+from matcher.models import Search
 
 class Command(BaseCommand):
   help = 'For every protein ID we want to search against,\
     query the NCBI database for its corresponding accession string.'
 
   def handle(self, *args, **options):
-    protein_ids = Protein.accn_strings_to_ids.values()
+    protein_ids = Search.protein_accn_strings_to_ids.values()
 
     # TODO: replace with API key stored as environment variable.
     Entrez.email = 'ncbi@junkinbo.xyz'

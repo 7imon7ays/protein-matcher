@@ -16,10 +16,10 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, re_path
-from matcher.views import FrontendAppView, ProteinsView
+from matcher.views import FrontendAppView, SearchesView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('proteins', ProteinsView.as_view(), name='proteins'),
+    path('searches', SearchesView.as_view(), name='searches'),
     re_path(r'^', FrontendAppView.as_view())
 ]

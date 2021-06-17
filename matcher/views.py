@@ -1,17 +1,29 @@
-import os
 import logging
-from django.http import HttpResponse
-from django.views.generic import View
+import json
+import os
+
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import View
+from django.utils.decorators import method_decorator
 
-from matcher.background_tasks import find_matching_protein
+from matcher.models import Search
 
 
-class ProteinsView(View):
-    def get(self, request):
-        dna_sequence = request.GET.get('dnaSequence')
-        find_matching_protein(dna_sequence, 1)
-        return HttpResponse(dna_sequence)
+class SearchesView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(SearchesView, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request):
+        # TODO: Validate DNA sequence isn't null or empty.
+        dna_sequence = json.loads(request.body).get('dnaSequence')
+        user = User.objects.get(id=1)
+        search = Search.objects.create(dna_sequence=dna_sequence, user=user)
+        return HttpResponse(json.dumps({ 'searchId': search.id }))
+
 
 class FrontendAppView(View):
     """
