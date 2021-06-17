@@ -24,10 +24,10 @@ class Protein(models.Model):
     blast_result_xml = ET.fromstring(qblast_response.read())
     for hit_accession in blast_result_xml.iter(tag='Hit_accession'):
       print('Matched DNA sequence to accession string "%s".' % hit_accession.text)
-      if hit_accession.text in cls.protein_accn_strings_to_ids:
+      if hit_accession.text in cls.accn_strings_to_ids:
         # TODO: Return a proper protein object?
-        print('Mapping this string to "%s."' % cls.protein_accn_strings_to_ids[hit_accession.text])
-        return cls.protein_accn_strings_to_ids[hit_accession.text]
+        print('Mapping this string to "%s."' % cls.accn_strings_to_ids[hit_accession.text])
+        return cls.accn_strings_to_ids[hit_accession.text]
 
   @classmethod
   def _build_entrez_query(cls):
