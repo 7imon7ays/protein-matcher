@@ -21,8 +21,14 @@ class SearchesView(View):
         # TODO: Validate DNA sequence isn't null or empty.
         dna_sequence = json.loads(request.body).get('dnaSequence')
         user = User.objects.get(id=1)
-        search = Search.objects.create(dna_sequence=dna_sequence, user=user)
-        return HttpResponse(json.dumps({ 'searchId': search.id }))
+        search_dict = Search.register(dna_sequence, user)
+        return HttpResponse(json.dumps(search_dict))
+
+    def get(self, request):
+        # TODO: AuthZ
+        search_ids = request.GET.getlist('searchIds[]')
+        search_dicts = Search.get_statuses(search_ids)
+        return HttpResponse(json.dumps(search_dicts))
 
 
 class FrontendAppView(View):

@@ -7,4 +7,4 @@ from matcher import background_tasks
 
 @receiver(post_save, sender=Search)
 def start_search(sender, instance, **kwargs):
-  background_tasks.match_to_protein(instance.pk)
+  background_tasks.match_to_protein(instance.id)

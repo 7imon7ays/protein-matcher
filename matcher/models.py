@@ -35,6 +35,24 @@ class Search(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
   state = models.CharField(max_length=5, choices=SEARCH_STATES, default=WAIT)
 
+  @classmethod
+  def get_statuses(cls, ids):
+    searches = cls.objects.filter(id__in=ids)
+    return [search.as_dict() for search in searches]
+
+  @classmethod
+  def register(cls, dna_sequence, user):
+    search = cls.objects.create(dna_sequence=dna_sequence, user=user)
+    return search.as_dict()
+
+  def as_dict(self):
+    return {
+      'id': self.id,
+      'state': self.state,
+      'proteinId': self.protein_id,
+      'dnaSequence': self.dna_sequence
+    }
+
   def mark_run(self):
     self.state=self.RUN
     self.save()

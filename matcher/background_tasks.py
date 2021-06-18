@@ -9,14 +9,22 @@ from matcher.models import Search
 @background(schedule=0)
 def match_to_protein(search_id):
     search_instance = Search.objects.get(pk=search_id)
+    # TODO: Add method on search to print first ten chars of DNA sequqnce.
+    print(
+        'Starting search #%s for a protein that matches DNA sequence "%s".' % (
+            search_instance.id, search_instance.dna_sequence[:10],
+        )
+    )
     search_instance.mark_run()
+
+    # TODO: Add environment variable to mock out Blast client.
 
     try:
         qblast_response = qblast(
             'blastn', 'nr', search_instance.dna_sequence, entrez_query=_build_entrez_query(search_instance.protein_accn_strings_to_ids)
         )
         blast_result_xml = ET.fromstring(qblast_response.read())
-        _register_blast_result(search_instance, blast_result_xml, search_instance.protein_accn_strings_to_ids)
+        _register_blast_result(search_instance, blast_result_xml)
     except:
         search_instance.mark_pause()
         raise
@@ -34,7 +42,7 @@ def _register_blast_result(search_instance, blast_result_xml):
 
         print(
             'Matched DNA sequence "%s" to protein ID "%s" via accession string "%s".' % (
-                search_instance.dna_sequence, protein_id, accession_string,
+                search_instance.dna_sequence[:10], protein_id, accession_string,
             )
         )
 

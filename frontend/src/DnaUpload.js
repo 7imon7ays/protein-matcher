@@ -17,10 +17,10 @@ export default class DnaUpload extends React.Component {
   }
 
   runSearch() {
+    // TODO: Move request to parent.
     axios.post('searches', { dnaSequence: this.state.searchString })
     .then(response => {
-      // TODO: Display result.
-      console.log(response);
+      this.props.registerNewSearch(response.data);
     })
   }
 
@@ -35,10 +35,10 @@ export default class DnaUpload extends React.Component {
                   placeholder="Enter a DNA sequence"
                   fullWidth id="dna_sequence"
                   inputProps={{ style: { backgroundColor: 'white' } }}
-                  onChange={ this.updateSearchString }
+                  onChange={this.updateSearchString}
               />
             </Box>
-            <Button color="primary" variant="contained" onClick={ this.runSearch }>
+            <Button color="primary" variant="contained" onClick={this.runSearch}>
               Find a matching protein
             </Button>
           </Grid>
