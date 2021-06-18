@@ -26,3 +26,7 @@
 .MuiTableCell-head, .MuiTableCell-body {
   color: #c8d1ffde !important;
 }
+
+.MuiInputBase-input {
+  color: #c8d1ffde !important;
+}

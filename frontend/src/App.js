@@ -13,15 +13,16 @@ export default class App extends React.Component  {
     super()
     this.state = { searchString: '', selectedFile: null, recentSearches: [] };
 
+    this.onFileChange = this.onFileChange.bind(this);
     this.refreshSearches = this.refreshSearches.bind(this);
     this.registerNewSearch = this.registerNewSearch.bind(this);
     this.runSearch = this.runSearch.bind(this);
-    this.onFileChange = this.onFileChange.bind(this);
+    this.updateSearchString = this.updateSearchString.bind(this);
   }
 
   // Input handlers.
 
-  updateSearchString({ target: value }) {
+  updateSearchString({ target: { value }}) {
     this.setState(state => ({ ...state, searchString: value }));
   }
 
@@ -109,6 +110,7 @@ export default class App extends React.Component  {
                       onFileChange={this.onFileChange}
                       registerNewSearch={this.registerNewSearch}
                       runSearch={this.runSearch}
+                      updateSearchString={this.updateSearchString}
                     />
                   </TableRow>
                   {this.state.recentSearches.map((search, idx) => (

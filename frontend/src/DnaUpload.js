@@ -1,24 +1,35 @@
 import React from 'react';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, TextField, withStyles } from '@material-ui/core';
 
 const styles = {
-  textField: { backgroundColor: '#d0cdcd', color: 'black', fontSize: 14 },
   uploadButton: { display: 'inline', color: 'white', backgroundColor: '#3f51b5', fontSize: 14 },
   submitButton: { display: 'inline', color: 'white', backgroundColor: "#562c84", fontSize: 14 }
 };
 
-export default class DnaUpload extends React.Component {
+const DnaTextField = withStyles({
+  root: {
+    '& label': { color: 'gray' },
+    '& label.Mui-focused': {
+      color: 'white',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'gray',
+    }
+  }
+})(TextField);
+
+ export default class DnaUpload extends React.Component {
   render() {
     return (
       <Grid container direction="row" alignItems="center" justify="space-between">
         <Grid item xs={6}>
-          <TextField
-              placeholder="Enter a DNA sequence"
-              fullWidth
-              id="dna_sequence"
-              style={styles.textField}
-              onChange={this.props.updateSearchString}
-              autoFocus
+          <DnaTextField
+            autoFocus
+            label="DNA sequence"
+            fullWidth
+            margin="dense"
+            id="dna_sequence"
+            onChange={this.props.updateSearchString}
           />
         </Grid>
         <Grid item xs={3}>
