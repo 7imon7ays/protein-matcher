@@ -37,8 +37,12 @@ class Search(models.Model):
       'id': self.id,
       'state': self.state,
       'proteinId': self.protein_id,
-      'dnaSequence': self.dna_sequence
+      'dnaSequence': self.abbreviated_dna_sequence
     }
+
+  @property
+  def abbreviated_dna_sequence(self):
+    return '%s...' % self.dna_sequence[:10] if len(self.dna_sequence) > 10 else self.dna_sequence
 
   def mark_run(self):
     self.state=self.RUN

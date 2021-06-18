@@ -47,7 +47,7 @@ class EntrezClient:
     protein_id, accession_string = self.parse_blast_result(qblast_response)
     print(
       'Matched DNA sequence "%s" to protein ID "%s" via accession string "%s".' % (
-        dna_sequence[:10], protein_id, accession_string,
+        dna_sequence, protein_id, accession_string,
       )
     )
     return protein_id, accession_string
