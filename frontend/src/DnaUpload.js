@@ -19,6 +19,15 @@ const DnaSequenceField = withStyles({
 })(TextField);
 
  export default class DnaUpload extends React.Component {
+  constructor() {
+    super();
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  handleKeyPress({ key }) {
+   if (key === 'Enter') this.props.runSearch();
+  }
+
   render() {
     return (
       <Grid container direction="row" alignItems="center" justify="space-between">
@@ -31,6 +40,7 @@ const DnaSequenceField = withStyles({
             InputProps={{ style: { paddingLeft: '9%' }}}
             onChange={this.props.updateSearchString}
             value={this.props.searchString}
+            onKeyPress={this.handleKeyPress}
           />
         </Grid>
         <Grid item xs={3}>
