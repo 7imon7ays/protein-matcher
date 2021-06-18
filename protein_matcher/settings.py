@@ -134,6 +134,26 @@ DATABASES = {
 # Allow concurrent background workers.
 BACKGROUND_TASK_RUN_ASYNC = True
 
+PROTEIN_ACCESSION_STRINGS_TO_IDS = {
+    'JF411744': 'NC_000852',
+    'AJ890364': 'NC_007346',
+    'EF101928': 'NC_008724',
+    'DQ491003': 'NC_009899',
+    'GU244497': 'NC_014637',
+    'JX962719': 'NC_020104',
+    'KF740664': 'NC_023423',
+    'JN258408': 'NC_023640',
+    'JN638751': 'NC_023719',
+    'KR921745': 'NC_027867'
+}
+
+BLAST = {
+    'mock_backend': False,
+    'program': 'blastn',
+    'database': 'nr'
+}
+
+
 # Override production variables if DJANGO_DEVELOPMENT env variable is set
 if os.environ.get('DJANGO_DEVELOPMENT'):
     from protein_matcher.settings_dev import *

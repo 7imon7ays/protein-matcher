@@ -11,3 +11,10 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+
+BLAST = {
+    'mock_backend': False,
+    'program': 'blastn',
+    'database': 'nr'
+}
