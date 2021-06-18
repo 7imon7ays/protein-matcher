@@ -1,8 +1,8 @@
-import logo from './logo.svg';
+import logo from './logo.png';
 
 export default function Pending (search) {
   return (
-    <img style={{ height: 'auto', width: '10%' }} src={logo} className="App-logo" alt="logo" />
+    <img style={{ height: '1.5em', width: '1.5em' }} src={logo} className="App-logo" alt="logo" />
     
   );
 }
