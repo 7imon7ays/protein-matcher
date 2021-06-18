@@ -1,9 +1,10 @@
 import React from 'react';
 import '@fontsource/roboto';
-import { Box, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import axios from 'axios';
 
 import DnaUpload from './DnaUpload';
+import Examples from './Examples';
 import SearchHistory from './SearchHistory';
 import { DONE_STATE } from './constants';
 
@@ -56,21 +57,21 @@ export default class App extends React.Component  {
   render() {
     return (
       <div className="App">
-        <Grid
-          container
-          justify="center"
-          alignItems="center"
-          spacing={10}
-        >
-          <Grid item xs={12}>
-            <Box m={5}>
-              <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-              </header>
-            </Box>
+        <Grid item xs={12}>
+          <Grid item m={5}>
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+            </header>
           </Grid>
-          <DnaUpload registerNewSearch={this.registerNewSearch} />
-          <SearchHistory searches={this.state.recentSearches} />
+        </Grid>
+        <Grid container direction="column" alignItems="center" justify="center">
+          <Grid item direction="column" xs={2}>
+              <DnaUpload registerNewSearch={this.registerNewSearch} />
+              <SearchHistory searches={this.state.recentSearches} />
+          </Grid>
+          <Grid item xs={6}>
+            <Examples />
+          </Grid>
         </Grid>
       </div>
     );
