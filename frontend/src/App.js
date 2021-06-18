@@ -55,7 +55,6 @@ export default class App extends React.Component  {
           this.setState(state => ({ ...state, selectedFile: null }));
           this.registerNewSearch(data);
         });
-
     }
   }
 
@@ -119,6 +118,7 @@ export default class App extends React.Component  {
                       registerNewSearch={this.registerNewSearch}
                       runSearch={this.runSearch}
                       updateSearchString={this.updateSearchString}
+                      searchString={this.state.searchString}
                     />
                   </TableRow>
                   {this.state.recentSearches.map((search, idx) => (

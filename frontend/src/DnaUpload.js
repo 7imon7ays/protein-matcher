@@ -6,7 +6,7 @@ const styles = {
   submitButton: { display: 'inline', color: 'white', backgroundColor: "#562c84", fontSize: 14 }
 };
 
-const DnaTextField = withStyles({
+const DnaSequenceField = withStyles({
   root: {
     '& label': { color: 'gray' },
     '& label.Mui-focused': {
@@ -23,13 +23,14 @@ const DnaTextField = withStyles({
     return (
       <Grid container direction="row" alignItems="center" justify="space-between">
         <Grid item xs={6}>
-          <DnaTextField
+          <DnaSequenceField
             autoFocus
             label="DNA sequence"
             fullWidth
             margin="dense"
             InputProps={{ style: { paddingLeft: '9%' }}}
             onChange={this.props.updateSearchString}
+            value={this.props.searchString}
           />
         </Grid>
         <Grid item xs={3}>
