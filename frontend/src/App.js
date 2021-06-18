@@ -5,13 +5,12 @@ import axios from 'axios';
 
 import DnaUpload from './DnaUpload';
 import SearchHistory from './SearchHistory';
+import { DONE_STATE } from './constants';
 
 import logo from './logo.svg';
 import './App.css';
 
 export default class App extends React.Component  {
-  DONE_STATE = 'DONE';
-
   constructor() {
     super()
     this.state = { recentSearches: [] };
@@ -40,7 +39,7 @@ export default class App extends React.Component  {
 
   refreshSearches() {
     const hasNoPendingSearches = this.state.recentSearches.every(search => {
-      return search.state === this.DONE_STATE;
+      return search.state === DONE_STATE;
     });
     if (hasNoPendingSearches) return;
 
@@ -55,9 +54,6 @@ export default class App extends React.Component  {
   }
 
   render() {
-    const completedSearches = this.state.recentSearches.filter(search => search.state === this.DONE_STATE);
-    const pendingSearches = this.state.recentSearches.filter(search => search.state !== this.DONE_STATE);
-
     return (
       <div className="App">
         <Grid
@@ -74,7 +70,7 @@ export default class App extends React.Component  {
             </Box>
           </Grid>
           <DnaUpload registerNewSearch={this.registerNewSearch} />
-          <SearchHistory completedSearches={completedSearches} pendingSearches={pendingSearches} />
+          <SearchHistory searches={this.state.recentSearches} />
         </Grid>
       </div>
     );
