@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Grid, TextField, withStyles } from '@material-ui/core';
 
 const styles = {
-  uploadButton: { display: 'inline', color: 'white', backgroundColor: '#3f51b5', fontSize: 14 },
-  submitButton: { display: 'inline', color: 'white', backgroundColor: "#562c84", fontSize: 14 }
+  uploadButton: { display: 'inline', color: 'white', backgroundColor: '#3f51b5', fontSize: '.8em' },
+  submitButton: { display: 'inline', color: 'white', backgroundColor: "#562c84", fontSize: '.8em' }
 };
 
 const DnaSequenceField = withStyles({

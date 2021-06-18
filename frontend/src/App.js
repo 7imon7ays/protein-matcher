@@ -107,8 +107,8 @@ export default class App extends React.Component  {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{ fontSize: 20 }}>Sequence</TableCell>
-                    <TableCell style={{ fontSize: 20 }} align="right">Protein ID</TableCell>
+                    <TableCell style={{ fontSize: '2em' }}>Sequence</TableCell>
+                    <TableCell style={{ fontSize: '2em' }} align="right">Protein ID</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -124,7 +124,7 @@ export default class App extends React.Component  {
                   {this.state.recentSearches.map((search, idx) => (
                     <TableRow key={idx}>
                       <TableCell>{search.dnaSequence}</TableCell>
-                      <TableCell>{search.proteinId || <Pending />}</TableCell>
+                      <TableCell align="right">{search.proteinId || <Pending />}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
