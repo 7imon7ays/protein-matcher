@@ -30,10 +30,11 @@ export default class App extends React.Component  {
   }
 
   registerNewSearch(newSearch) {
+    // Don't hold more than 10 searches total.
+    const recentSearches = [newSearch, ...this.state.recentSearches].slice(0, 10);
+
     this.setState(state => {
-      return {
-        ...state, recentSearches: [...state.recentSearches, newSearch]
-      };
+      return {...state, recentSearches};
     });
   }
 

@@ -3,8 +3,9 @@ import { Grid } from '@material-ui/core';
 
 import PendingSearch from './PendingSearch'
 
-// TODO: Turn to stateless component?
 // TODO: Show something helpful when no protein was matched.
+// TODO: Don't split pending and completed searches, keep global ordering.
+// TODO: Turn to stateless component?
 export default class SearchHistory extends React.Component {
   render() {
     return (
