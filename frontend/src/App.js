@@ -14,21 +14,14 @@ export default class App extends React.Component  {
 
   constructor() {
     super()
-    this.state = {
-      completedSearches: [
-        { id: 1, proteinId: 'NC_000852' },
-        { id: 2, proteinId: 'NC_007346' },
-        { id: 3, proteinId: 'NC_008724' },
-      ],
-      pendingSearches: []
-    };
+    this.state = { recentSearches: [] };
 
     this.refreshSearches = this.refreshSearches.bind(this);
     this.registerNewSearch = this.registerNewSearch.bind(this);
-    this.updateSearches = this.updateSearches.bind(this);
   }
 
   componentDidMount() {
+    this.fetchSearches();
     this.timer = setInterval(this.refreshSearches, 1000);
   }
 
@@ -39,36 +32,31 @@ export default class App extends React.Component  {
   registerNewSearch(newSearch) {
     this.setState(state => {
       return {
-        ...state, pendingSearches: [...state.pendingSearches, newSearch]
+        ...state, recentSearches: [...state.recentSearches, newSearch]
       };
     });
   }
 
   refreshSearches() {
-    if (this.state.pendingSearches.length === 0) return;
+    const hasNoPendingSearches = this.state.recentSearches.every(search => {
+      return search.state === this.DONE_STATE;
+    });
+    if (hasNoPendingSearches) return;
 
-    const pendingSearchIds = this.state.pendingSearches.map(search => search.id);
-
-    axios.get('searches', { params: { searchIds: pendingSearchIds }})
-      .then(response => {
-        this.updateSearches(response.data);
-      });
+    this.fetchSearches();
   }
 
-  updateSearches(updatedSearches) {
-    const pendingSearches = updatedSearches.filter(search => search.state !== this.DONE_STATE);
-    const newlyCompletedSearches = updatedSearches.filter(search => search.state === this.DONE_STATE);
-
-    // TODO: Order by date and limit to 10.
-    // Maybe instead of doing all this client-side, just re-fetch all 10 searches from the server.
-    const completedSearches = [...newlyCompletedSearches, ...this.state.completedSearches]
-
-    this.setState(state => {
-      return {...state, completedSearches, pendingSearches};
+  fetchSearches() {
+    axios.get('searches')
+    .then(({ data }) => {
+      this.setState(state => ({ ...state, recentSearches: data }));
     });
   }
 
   render() {
+    const completedSearches = this.state.recentSearches.filter(search => search.state === this.DONE_STATE);
+    const pendingSearches = this.state.recentSearches.filter(search => search.state !== this.DONE_STATE);
+
     return (
       <div className="App">
         <Grid
@@ -85,9 +73,7 @@ export default class App extends React.Component  {
             </Box>
           </Grid>
           <DnaUpload registerNewSearch={this.registerNewSearch} />
-          <SearchHistory
-            pendingSearches={this.state.pendingSearches} completedSearches={this.state.completedSearches}
-          />
+          <SearchHistory completedSearches={completedSearches} pendingSearches={pendingSearches} />
         </Grid>
       </div>
     );

@@ -131,6 +131,9 @@ DATABASES = {
     'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
 
+# Allow concurrent background workers.
+BACKGROUND_TASK_RUN_ASYNC = True
+
 # Override production variables if DJANGO_DEVELOPMENT env variable is set
 if os.environ.get('DJANGO_DEVELOPMENT'):
     from protein_matcher.settings_dev import *

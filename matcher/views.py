@@ -40,9 +40,9 @@ class SearchesView(View):
 
     @with_logged_in_user
     def get(self, request):
-        search_ids = request.GET.getlist('searchIds[]')
-        search_dicts = Search.get_statuses(search_ids, request.user)
-        return HttpResponse(json.dumps(search_dicts))
+        return HttpResponse(json.dumps(
+            Search.get_recent_searches(request.user)
+        ))
 
 
 class FrontendAppView(View):

@@ -30,14 +30,15 @@ class Search(models.Model):
   ]
 
   accession_string = models.CharField(max_length=20)
+  created_at = models.DateTimeField(auto_now_add=True)
   dna_sequence = models.TextField()
   protein_id = models.CharField(max_length=20)
   user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
   state = models.CharField(max_length=5, choices=SEARCH_STATES, default=WAIT)
 
   @classmethod
-  def get_statuses(cls, ids, user):
-    searches = cls.objects.filter(id__in=ids, user=user)
+  def get_recent_searches(cls, user):
+    searches = cls.objects.filter(user=user).order_by('-created_at')[:10]
     return [search.as_dict() for search in searches]
 
   @classmethod
@@ -63,4 +64,6 @@ class Search(models.Model):
 
   def mark_done(self):
     self.state=self.DONE
+    # TODO: Delete this.
+    print('Completed search with attributes %s.' % str(self.as_dict()))
     self.save()
