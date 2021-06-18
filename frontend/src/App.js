@@ -37,16 +37,18 @@ export default class App extends React.Component  {
       return
     }
 
-    // TODO: Support FASTA file formats by branching on file extension.
-    const formData = new FormData();
-    formData.append(
-      "dna_sequence",
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
+    if (this.state.selectedFile) {
+      // TODO: Support FASTA file formats by branching on file extension.
+      const formData = new FormData();
+      formData.append(
+        "dna_sequence",
+        this.state.selectedFile,
+        this.state.selectedFile.name
+      );
 
       axios.post("searches", formData)
-      .then(this.registerNewSearch);
+        .then(this.registerNewSearch);
+    }
   }
 
   registerNewSearch({ data }) {
@@ -88,21 +90,17 @@ export default class App extends React.Component  {
   render() {
     return (
       <div className="App">
-        <Grid item xs={12}>
-          <Grid item m={5}>
-            <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-            </header>
-          </Grid>
-        </Grid>
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+        </header>
         <Grid container direction="column" alignItems="center" justify="center">
           <Grid item xs={12}>
             <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Sequence</TableCell>
-                    <TableCell align="right">Protein ID</TableCell>
+                    <TableCell style={{ fontSize: 20 }}>Sequence</TableCell>
+                    <TableCell style={{ fontSize: 20 }} align="right">Protein ID</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -113,8 +111,8 @@ export default class App extends React.Component  {
                       runSearch={this.runSearch}
                     />
                   </TableRow>
-                  {this.state.recentSearches.map(search => (
-                    <TableRow>
+                  {this.state.recentSearches.map((search, idx) => (
+                    <TableRow key={idx}>
                       <TableCell>{search.dnaSequence}</TableCell>
                       <TableCell>{search.proteinId || '[pending]'}</TableCell>
                     </TableRow>
@@ -123,7 +121,7 @@ export default class App extends React.Component  {
               </Table>
             </TableContainer>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Examples />
           </Grid>
         </Grid>
