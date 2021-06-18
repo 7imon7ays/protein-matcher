@@ -3,13 +3,27 @@ import json
 import os
 
 from django.conf import settings
+from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from django.utils.decorators import method_decorator
+from django.utils.crypto import get_random_string
 
 from matcher.models import Search
+
+
+def with_logged_in_user(view_action):
+    def wrapper(view, request):
+        if request.session.session_key is None:
+            # TODO: Add full authentication or remove unused user columns.
+            user = User.objects.create(username=get_random_string())
+            login(request, user)
+
+        return view_action(view, request)
+
+    return wrapper
 
 
 class SearchesView(View):
@@ -17,17 +31,17 @@ class SearchesView(View):
     def dispatch(self, request, *args, **kwargs):
         return super(SearchesView, self).dispatch(request, *args, **kwargs)
 
+    @with_logged_in_user
     def post(self, request):
         # TODO: Validate DNA sequence isn't null or empty.
         dna_sequence = json.loads(request.body).get('dnaSequence')
-        user = User.objects.get(id=1)
-        search_dict = Search.register(dna_sequence, user)
+        search_dict = Search.register(dna_sequence, user=request.user)
         return HttpResponse(json.dumps(search_dict))
 
+    @with_logged_in_user
     def get(self, request):
-        # TODO: AuthZ
         search_ids = request.GET.getlist('searchIds[]')
-        search_dicts = Search.get_statuses(search_ids)
+        search_dicts = Search.get_statuses(search_ids, request.user)
         return HttpResponse(json.dumps(search_dicts))
 
 

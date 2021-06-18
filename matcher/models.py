@@ -36,8 +36,8 @@ class Search(models.Model):
   state = models.CharField(max_length=5, choices=SEARCH_STATES, default=WAIT)
 
   @classmethod
-  def get_statuses(cls, ids):
-    searches = cls.objects.filter(id__in=ids)
+  def get_statuses(cls, ids, user):
+    searches = cls.objects.filter(id__in=ids, user=user)
     return [search.as_dict() for search in searches]
 
   @classmethod
