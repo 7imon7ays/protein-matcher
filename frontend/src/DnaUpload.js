@@ -28,7 +28,7 @@ const DnaTextField = withStyles({
             label="DNA sequence"
             fullWidth
             margin="dense"
-            id="dna_sequence"
+            InputProps={{ style: { paddingLeft: '9%' }}}
             onChange={this.props.updateSearchString}
           />
         </Grid>

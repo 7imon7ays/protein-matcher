@@ -5,7 +5,7 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow 
 import './App.css';
 import DnaUpload from './DnaUpload';
 import Examples from './Examples';
-import logo from './logo.svg';
+import Pending from './Pending';
 import { DONE_STATE } from './constants';
 
 export default class App extends React.Component  {
@@ -34,7 +34,10 @@ export default class App extends React.Component  {
     // Prefer text input over file upload because the file is easier to recover.
     if (this.state.searchString !== '') {
       axios.post('searches', { dnaSequence: this.state.searchString })
-      .then(this.registerNewSearch);
+        .then(({ data }) => {
+          this.setState(state => ({ ...state, searchString: '' }));
+          this.registerNewSearch(data);
+        });
       return
     }
 
@@ -48,13 +51,17 @@ export default class App extends React.Component  {
       );
 
       axios.post("searches", formData)
-        .then(this.registerNewSearch);
+        .then(({ data }) => {
+          this.setState(state => ({ ...state, selectedFile: null }));
+          this.registerNewSearch(data);
+        });
+
     }
   }
 
-  registerNewSearch({ data }) {
+  registerNewSearch(newSearch) {
     // Don't hold more than 10 searches total.
-    const recentSearches = [data, ...this.state.recentSearches].slice(0, 10);
+    const recentSearches = [newSearch, ...this.state.recentSearches].slice(0, 10);
 
     this.setState(state => {
       return {...state, recentSearches};
@@ -88,11 +95,12 @@ export default class App extends React.Component  {
     });
   }
 
+  // TODO: Break down component.
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <h1>Protein Matcher</h1>
         </header>
         <Grid container direction="column" alignItems="center" justify="center">
           <Grid item xs={12}>
@@ -116,7 +124,7 @@ export default class App extends React.Component  {
                   {this.state.recentSearches.map((search, idx) => (
                     <TableRow key={idx}>
                       <TableCell>{search.dnaSequence}</TableCell>
-                      <TableCell>{search.proteinId || '[pending]'}</TableCell>
+                      <TableCell>{search.proteinId || <Pending />}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
