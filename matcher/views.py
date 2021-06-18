@@ -34,7 +34,13 @@ class SearchesView(View):
     @with_logged_in_user
     def post(self, request):
         # TODO: Validate DNA sequence isn't null or empty.
-        dna_sequence = json.loads(request.body).get('dnaSequence')
+        if 'dna_sequence' in request.FILES:
+            dna_sequence = request.FILES['dna_sequence'].read().decode('UTF-8')
+        else:
+            dna_sequence = json.loads(request.body).get('dnaSequence', '')
+
+        # TODO: Validate from Search model.
+
         search_dict = Search.register(dna_sequence, user=request.user)
         return HttpResponse(json.dumps(search_dict))
 

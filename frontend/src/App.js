@@ -14,11 +14,54 @@ import './App.css';
 export default class App extends React.Component  {
   constructor() {
     super()
-    this.state = { recentSearches: [] };
+    this.state = { searchString: '', selectedFile: null, recentSearches: [] };
 
     this.refreshSearches = this.refreshSearches.bind(this);
     this.registerNewSearch = this.registerNewSearch.bind(this);
+    this.runSearch = this.runSearch.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
   }
+
+  // Input handlers.
+
+  updateSearchString({ target: value }) {
+    this.setState(state => ({ ...state, searchString: value }));
+  }
+
+  onFileChange({ target: { files }}) {
+    this.setState(state => ({ ...state, selectedFile: files[0] }))
+  }
+
+  runSearch() {
+    // Prefer text input over file upload because the file is easier to recover.
+    if (this.state.searchString !== '') {
+      axios.post('searches', { dnaSequence: this.state.searchString })
+      .then(this.registerNewSearch);
+      return
+    }
+
+    // TODO: Support FASTA file formats by branching on file extension.
+    const formData = new FormData();
+    formData.append(
+      "dna_sequence",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+
+      axios.post("searches", formData)
+      .then(this.registerNewSearch);
+  }
+
+  registerNewSearch({ data }) {
+    // Don't hold more than 10 searches total.
+    const recentSearches = [data, ...this.state.recentSearches].slice(0, 10);
+
+    this.setState(state => {
+      return {...state, recentSearches};
+    });
+  }
+
+  // Polling handlers.
 
   componentDidMount() {
     this.fetchSearches();
@@ -27,15 +70,6 @@ export default class App extends React.Component  {
 
   componentWillUnmount() {
     clearInterval(this.timer);
-  }
-
-  registerNewSearch(newSearch) {
-    // Don't hold more than 10 searches total.
-    const recentSearches = [newSearch, ...this.state.recentSearches].slice(0, 10);
-
-    this.setState(state => {
-      return {...state, recentSearches};
-    });
   }
 
   refreshSearches() {
@@ -65,8 +99,12 @@ export default class App extends React.Component  {
           </Grid>
         </Grid>
         <Grid container direction="column" alignItems="center" justify="center">
-          <Grid item direction="column" xs={2}>
-              <DnaUpload registerNewSearch={this.registerNewSearch} />
+          <Grid item xs={2}>
+              <DnaUpload
+                onFileChange={this.onFileChange}
+                registerNewSearch={this.registerNewSearch}
+                runSearch={this.runSearch}
+              />
               <SearchHistory searches={this.state.recentSearches} />
           </Grid>
           <Grid item xs={6}>
