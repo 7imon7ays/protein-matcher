@@ -21,3 +21,8 @@
     transform: rotate(360deg);
   }
 }
+
+/* TODO: Find correct way to override table color default.*/
+.MuiTableCell-head, .MuiTableCell-body {
+  color: #c8d1ffde !important
+}

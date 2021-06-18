@@ -1,15 +1,12 @@
 import React from 'react';
-import '@fontsource/roboto';
-import { Grid } from '@material-ui/core';
 import axios from 'axios';
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 
+import './App.css';
 import DnaUpload from './DnaUpload';
 import Examples from './Examples';
-import SearchHistory from './SearchHistory';
-import { DONE_STATE } from './constants';
-
 import logo from './logo.svg';
-import './App.css';
+import { DONE_STATE } from './constants';
 
 export default class App extends React.Component  {
   constructor() {
@@ -99,13 +96,32 @@ export default class App extends React.Component  {
           </Grid>
         </Grid>
         <Grid container direction="column" alignItems="center" justify="center">
-          <Grid item xs={2}>
-              <DnaUpload
-                onFileChange={this.onFileChange}
-                registerNewSearch={this.registerNewSearch}
-                runSearch={this.runSearch}
-              />
-              <SearchHistory searches={this.state.recentSearches} />
+          <Grid item xs={12}>
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Sequence</TableCell>
+                    <TableCell align="right">Protein ID</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <DnaUpload
+                      onFileChange={this.onFileChange}
+                      registerNewSearch={this.registerNewSearch}
+                      runSearch={this.runSearch}
+                    />
+                  </TableRow>
+                  {this.state.recentSearches.map(search => (
+                    <TableRow>
+                      <TableCell>{search.dnaSequence}</TableCell>
+                      <TableCell>{search.proteinId || '[pending]'}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Grid>
           <Grid item xs={6}>
             <Examples />
