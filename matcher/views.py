@@ -39,7 +39,7 @@ class SearchesView(View):
         else:
             dna_sequence = json.loads(request.body).get('dnaSequence', '')
 
-        # TODO: Validate from Search model.
+        # TODO: Add Search model method to validate DNA sequence.
 
         search_dict = Search.register(dna_sequence, user=request.user)
         return HttpResponse(json.dumps(search_dict))

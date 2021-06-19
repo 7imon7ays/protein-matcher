@@ -29,7 +29,7 @@ class Search(models.Model):
 
   @classmethod
   def register(cls, dna_sequence, user):
-    search = cls.objects.create(dna_sequence=dna_sequence, user=user)
+    search = cls.objects.create(dna_sequence=dna_sequence.upper(), user=user)
     return search.as_dict()
 
   def as_dict(self):

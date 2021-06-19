@@ -1,3 +1,6 @@
+start:
+	docker compose up
+
 logs:
 	heroku logs -a protein-matcher
 
@@ -6,7 +9,4 @@ migrate-prod:
 
 shell:
 	python manage.py shell
-
-start:
-	docker compose up
 
