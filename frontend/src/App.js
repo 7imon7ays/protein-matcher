@@ -113,17 +113,19 @@ export default class App extends React.Component  {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <DnaUpload
-                      onFileChange={this.onFileChange}
-                      registerNewSearch={this.registerNewSearch}
-                      runSearch={this.runSearch}
-                      updateSearchString={this.updateSearchString}
-                      searchString={this.state.searchString}
-                    />
+                    <TableCell colSpan={12}>
+                      <DnaUpload
+                        onFileChange={this.onFileChange}
+                        registerNewSearch={this.registerNewSearch}
+                        runSearch={this.runSearch}
+                        updateSearchString={this.updateSearchString}
+                        searchString={this.state.searchString}
+                      />
+                    </TableCell>
                   </TableRow>
                   {this.state.recentSearches.map((search, idx) => (
                     <TableRow key={idx}>
-                      <TableCell>{search.dnaSequence}</TableCell>
+                      <TableCell style={{ maxWidth: '6em', 'overflow': 'scroll' }}>{search.dnaSequence}</TableCell>
                       <TableCell align="right">{search.proteinId || <Pending />}</TableCell>
                     </TableRow>
                   ))}

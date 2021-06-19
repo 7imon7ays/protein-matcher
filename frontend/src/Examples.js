@@ -7,11 +7,11 @@ export default function Examples () {
   return (
     <div>
       <Box border={1} borderRadius='1%' m={7}>
-        <h3>Example sequences</h3>
+        <h3>EXAMPLE SEQUENCES</h3>
         <List dense={true}>
           {Object.keys(DNA_SEQUENCES_EXAMPLES).map((sequence, idx) => (
               <ListItem key={idx}>
-                <ListItemText className="smallFont">{sequence}</ListItemText>
+                <ListItemText style={{ maxWidth: '100%', overflow: 'scroll' }}  className="smallFont">{sequence}</ListItemText>
               </ListItem>
           ))}
         </List>

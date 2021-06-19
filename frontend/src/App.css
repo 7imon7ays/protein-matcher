@@ -25,9 +25,7 @@
 /* Bypassing the Material UI styling API.
    TODO: Fix this.
 */
-.smallFont > * {
-  font-size: .6em !important;
-}
+
 .MuiTableCell-head, .MuiTableCell-body {
   color: #c8d1ffde !important;
 }

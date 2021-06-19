@@ -11,7 +11,7 @@ def match_to_protein(search_id):
     # TODO: Add method on search to print first ten chars of DNA sequqnce.
     print(
         'Starting search #%s for a protein that matches DNA sequence "%s".' % (
-            search_instance.id, search_instance.abbreviated_dna_sequence,
+            search_instance.id, search_instance.dna_sequence,
         )
     )
     search_instance.mark_run()
