@@ -113,13 +113,14 @@ export default class App extends React.Component  {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell colSpan={12}>
+                    <TableCell colSpan={2} style={{ padding: '0' }}>
                       <DnaUpload
                         onFileChange={this.onFileChange}
                         registerNewSearch={this.registerNewSearch}
                         runSearch={this.runSearch}
                         updateSearchString={this.updateSearchString}
                         searchString={this.state.searchString}
+                        isFileSelected={!!this.state.selectedFile}
                       />
                     </TableCell>
                   </TableRow>
