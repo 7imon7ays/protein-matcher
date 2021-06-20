@@ -62,7 +62,11 @@ const DnaSequenceField = withStyles({
           />
         </Grid>
         <Grid item xs={3}>
-          <Button variant="contained" onClick={this.props.runSearch} style={styles.submitButton}>
+          <Button
+            variant="contained"
+            onClick={this.props.runSearch}
+            style={styles.submitButton}
+            id="search">
             <SearchSharp />
           </Button>
         </Grid>
@@ -71,16 +75,10 @@ const DnaSequenceField = withStyles({
             variant="contained"
             style={styles.uploadButton}
             onClick={this.handleClickUpload}
+            id="upload"
           >
-            <PublishSharpIcon
-              color={this.props.isFileSelected ? 'disabled' : 'action'}
-            />
-            <input
-              type="file"
-              hidden
-              onChange={this.props.onFileChange}
-              ref={this.hiddenFileUpload}
-            />
+            <PublishSharpIcon color={this.props.isFileSelected ? 'disabled' : 'action'} />
+            <input type="file" hidden onChange={this.props.onFileChange} ref={this.hiddenFileUpload} />
           </Button>
         </Grid>
       </Grid>
