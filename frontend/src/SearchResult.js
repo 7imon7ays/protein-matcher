@@ -1,4 +1,4 @@
-import { FOUND, NOT_FOUND } from './constants';
+import { NCBI_PATH, FOUND, NOT_FOUND } from './constants';
 import dna_logo_color from './dna-logo-color.png';
 import dna_logo_gray from './dna-logo-gray.png';
 
@@ -13,7 +13,7 @@ export default function SearchResult({ search }) {
   let display;
 
   if (search.state === FOUND) {
-    display = search.proteinId;
+    display = <a href={NCBI_PATH + search.proteinId} className="resultLink">{search.proteinId}</a>;
   } else if (search.state === NOT_FOUND ) {
     display = <ResultLogo logo={dna_logo_gray} shouldSpin={false} />;
   } else {

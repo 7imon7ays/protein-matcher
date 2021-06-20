@@ -37,3 +37,9 @@
 .MuiInputBase-input {
   color: #c8d1ffde !important;
 }
+
+a.resultLink {
+  color: #695894;
+  font-weight: bold;
+  text-decoration: none !important;
+}
