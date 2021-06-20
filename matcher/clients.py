@@ -45,11 +45,6 @@ class EntrezClient:
         )
 
     protein_id, accession_string = self.parse_blast_result(qblast_response)
-    print(
-      'Matched DNA sequence "%s" to protein ID "%s" via accession string "%s".' % (
-        dna_sequence, protein_id, accession_string,
-      )
-    )
     return protein_id, accession_string
 
   def parse_blast_result(self, qblast_response):
@@ -57,15 +52,19 @@ class EntrezClient:
     for hit_accession in blast_result_xml.iter(tag='Hit_accession'):
       accession_string = hit_accession.text
 
-      print('Matched DNA sequence to accession string "%s".' % accession_string)
-
       if accession_string in self._protein_accession_strings_to_ids:
         protein_id = self._protein_accession_strings_to_ids[accession_string]
         # Ignore subsequent matches.
         return protein_id, accession_string
 
+    return ('', '',)
+
   def _build_entrez_query(self):
-    return ' OR '.join([
-      protein_id + '[accession]'
-        for protein_id in self._protein_accession_strings_to_ids.keys()
-      ])
+    """
+    Given ['NC_000852', 'NC_007346', 'NC_008724']
+    Return 'NC_000852[accession] OR NC_007346[accession] OR NC_008724[accession].
+    """
+    labeled_search_filters = [
+      protein_id + '[accession]' for protein_id in self._protein_accession_strings_to_ids.keys()
+    ]
+    return ' OR '.join(labeled_search_filters)

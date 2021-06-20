@@ -3,16 +3,18 @@ from django.db import models
 
 
 class Search(models.Model):
-  WAIT = 'WAIT'
-  RUN = 'RUN'
-  PAUSE = 'PAUSE'
-  DONE = 'DONE'
+  ERROR = 'ERROR'
+  FOUND = 'FOUND'
+  NOT_FOUND = 'EMPTY'
+  READY = 'READY'
+  RUNNING = 'RUN'
 
   SEARCH_STATES = [
-    (WAIT, 'Waiting',),
-    (RUN, 'Running',),
-    (PAUSE, 'Pausing',),
-    (DONE, 'Done',),
+    (ERROR, 'Error',),
+    (FOUND, 'Success',),
+    (NOT_FOUND, 'Not found',),
+    (READY, 'Ready',),
+    (RUNNING, 'Running',),
   ]
 
   accession_string = models.CharField(max_length=20)
@@ -20,7 +22,7 @@ class Search(models.Model):
   dna_sequence = models.TextField()
   protein_id = models.CharField(max_length=20)
   user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-  state = models.CharField(max_length=5, choices=SEARCH_STATES, default=WAIT)
+  state = models.CharField(max_length=5, choices=SEARCH_STATES, default=READY)
 
   @classmethod
   def get_recent_searches(cls, user):
@@ -40,16 +42,18 @@ class Search(models.Model):
       'dnaSequence': self.dna_sequence
     }
 
-  def mark_run(self):
-    self.state=self.RUN
+  def mark_running(self):
+    self.state=self.RUNNING
     self.save()
 
-  def mark_pause(self):
-    self.state=self.PAUSE
+  def mark_error(self):
+    self.state=self.ERROR
     self.save()
 
-  def mark_done(self):
-    self.state=self.DONE
-    # TODO: Delete this.
-    print('Completed search with attributes %s.' % str(self.as_dict()))
+  def mark_found(self):
+    self.state=self.FOUND
+    self.save()
+
+  def mark_not_found(self):
+    self.state=self.NOT_FOUND
     self.save()
