@@ -5,8 +5,8 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow 
 import './App.css';
 import DnaUpload from './DnaUpload';
 import Examples from './Examples';
-import Pending from './Pending';
-import { DONE_STATE } from './constants';
+import SearchResult from './SearchResult';
+import { FOUND, NOT_FOUND } from './constants';
 
 export default class App extends React.Component  {
   constructor() {
@@ -80,7 +80,7 @@ export default class App extends React.Component  {
 
   refreshSearches() {
     const hasNoPendingSearches = this.state.recentSearches.every(search => {
-      return search.state === DONE_STATE;
+      return search.state === FOUND || search.state === NOT_FOUND;
     });
     if (hasNoPendingSearches) return;
 
@@ -127,7 +127,7 @@ export default class App extends React.Component  {
                   {this.state.recentSearches.map((search, idx) => (
                     <TableRow key={idx}>
                       <TableCell style={{ maxWidth: '6em', 'overflow': 'scroll' }}>{search.dnaSequence}</TableCell>
-                      <TableCell align="right">{search.proteinId || <Pending />}</TableCell>
+                      <TableCell align="right"><SearchResult search={search} /></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
