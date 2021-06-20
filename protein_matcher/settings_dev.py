@@ -14,7 +14,8 @@ DATABASES = {
 
 
 BLAST = {
-    'mock_backend': False,
+    'mock_backend': True, # Mock out Entrez calls.
+    'unmatchable_sequence': 'GATTACA', # When mocking, this sequence is never found.
     'program': 'blastn',
     'database': 'nr'
 }

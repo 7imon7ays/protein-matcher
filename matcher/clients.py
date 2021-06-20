@@ -17,11 +17,16 @@ Entrez query: {0}
 """
   print(info_string.format(program, db, dna_sequence, entrez_query))
 
-  mock_file_path = os.path.join(settings.BASE_DIR, 'matcher', 'mocks', 'qblast_response.xml')
+  if dna_sequence == settings.BLAST.get('unmatchable_sequence'):
+    file_name = 'qblast_response_empty.xml'
+  else:
+    file_name = 'qblast_response_found.xml'
+
+  mock_file_path = os.path.join(settings.BASE_DIR, 'matcher', 'mocks', file_name)
   with open(mock_file_path, 'r') as mock_file:
     mock_response = mock_file.read()
 
-  sleep(5)
+  sleep(2)
   return io.StringIO(mock_response)
 
 
