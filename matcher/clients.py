@@ -17,7 +17,7 @@ Entrez query: {0}
 """
   print(info_string.format(program, db, dna_sequence, entrez_query))
 
-  if dna_sequence == settings.BLAST.get('unmatchable_sequence'):
+  if dna_sequence == settings.BLAST.get('mock_unmatchable_sequence'):
     file_name = 'qblast_response_empty.xml'
   else:
     file_name = 'qblast_response_found.xml'
@@ -26,7 +26,7 @@ Entrez query: {0}
   with open(mock_file_path, 'r') as mock_file:
     mock_response = mock_file.read()
 
-  sleep(2)
+  sleep(settings.BLAST.get('mock_sleep_time_seconds', 2))
   return io.StringIO(mock_response)
 
 
