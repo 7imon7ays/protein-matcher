@@ -3,6 +3,7 @@ from django.db import models
 
 
 class Search(models.Model):
+    """State management for every search."""
     ERROR = 'ERROR'
     FOUND = 'FOUND'
     NOT_FOUND = 'EMPTY'
@@ -33,6 +34,7 @@ class Search(models.Model):
 
     @classmethod
     def register(cls, dna_sequence, user):
+        """Save a new search for a given user."""
         search = cls.objects.create(
             dna_sequence=dna_sequence.upper(), user=user
         )

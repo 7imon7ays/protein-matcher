@@ -29,23 +29,29 @@ def with_logged_in_user(view_action):
 class SearchesView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
+        """Bypass Django's CSRF protection.
+        TODO: Pass CSRF token to client via frontend build server.
+        """
         return super(SearchesView, self).dispatch(request, *args, **kwargs)
 
     @with_logged_in_user
     def post(self, request):
-        # TODO: Validate DNA sequence isn't null or empty.
+        """Start a new search."""
         if 'dna_sequence' in request.FILES:
             dna_sequence = request.FILES['dna_sequence'].read().decode('UTF-8')
         else:
             dna_sequence = json.loads(request.body).get('dnaSequence', '')
 
-        # TODO: Add Search model method to validate DNA sequence.
+        # TODO:
+        # - Validate DNA sequence only contains A, C, G, or T.
+        # - Validate DNA sequence isn't null or empty.
 
         search_dict = Search.register(dna_sequence, user=request.user)
         return HttpResponse(json.dumps(search_dict))
 
     @with_logged_in_user
     def get(self, request):
+        """Get the statuses of the current user's recent searches."""
         return HttpResponse(json.dumps(
             Search.get_recent_searches(request.user)
         ))

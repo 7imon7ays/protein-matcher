@@ -148,9 +148,14 @@ PROTEIN_ACCESSION_STRINGS_TO_IDS = {
     'KR921745': 'NC_027867'
 }
 
+# Settings for Entrez client.
 BLAST = {
-    'mock_backend': False,
+    'mock_backend': False,  # Make real Entrez calls.
+    # # Search nucleotides.
+    # http://ncbi.github.io/blast-cloud/dev/api.html
     'program': 'blastn',
+    # Non-redundant DB.
+    # http://ncbi.github.io/blast-cloud/blastdb/available-blastdbs.html
     'database': 'nr'
 }
 

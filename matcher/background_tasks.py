@@ -6,6 +6,7 @@ from matcher.models import Search
 
 @background(schedule=0)
 def match_to_protein(search_id):
+    """Execute calls to NCBI servers without blocking the client."""
     search_instance = Search.objects.get(pk=search_id)
 
     # TODO: Add method on search to print first ten chars of DNA sequqnce.
@@ -19,7 +20,8 @@ def match_to_protein(search_id):
         protein_id, accession_string = entrez_client.blast(
             search_instance.dna_sequence
         )
-    except:  # noqa TODO: Find out what errors the API call can throw.
+    # Record in the searches table that this search encountered an error.
+    except:  # noqa TODO: Find out what errors exactly the API call can throw.
         # TODO: Make it easier to tell if the job has retries left.
         search_instance.mark_error()
         raise

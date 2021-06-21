@@ -5,7 +5,10 @@ import {
 
 import { DNA_SEQUENCES_EXAMPLES } from './constants';
 
-// TODO: Display expected protein IDs with Material UI Tooltip.
+/**
+ * Show examples of DNA sequences that the app will match.
+ * TODO: Display expected protein IDs with Material UI Tooltip.
+ */
 export default function Examples() {
   return (
     <div>

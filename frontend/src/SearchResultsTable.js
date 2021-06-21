@@ -6,6 +6,9 @@ import {
 import DnaUpload from './DnaUpload';
 import SearchResult from './SearchResult';
 
+/**
+ * Table that includes both new search input elements and recent search history.
+ */
 export default function SearchResultsTable({
   registerNewSearch,
   onFileChange,

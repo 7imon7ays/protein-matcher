@@ -23,6 +23,9 @@ const ResultLogo = ({ logo, isStillLooking }) => (
   />
 );
 
+/**
+ * Display a search result by branching on its state.
+ */
 export default function SearchResult({ search }) {
   let display;
 

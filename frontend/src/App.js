@@ -7,6 +7,10 @@ import Examples from './Examples';
 import SearchResultsTable from './SearchResultsTable';
 import { FOUND, NOT_FOUND } from './constants';
 
+/**
+ * Application root.
+ * Manages state to enter new searches and poll for recent search statuses.
+ */
 export default class App extends React.Component {
   constructor() {
     super();

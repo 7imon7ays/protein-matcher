@@ -37,6 +37,9 @@ const DnaSequenceField = withStyles({
   },
 })(TextField);
 
+/**
+ * Handle user input for a new search.
+ */
 export default class DnaUpload extends React.Component {
   constructor() {
     super();

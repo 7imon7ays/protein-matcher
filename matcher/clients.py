@@ -8,7 +8,7 @@ from django.conf import settings
 
 
 def _mock_qblast(program, db, dna_sequence, entrez_query):
-
+    """Mock out call to NCBI for development and testing."""
     info_string = """Running mock qblast.
 Program: {0}
 Database: {0}
@@ -33,6 +33,7 @@ Entrez query: {0}
 
 
 class EntrezClient:
+    """Interface to NCBI databases."""
     def __init__(self):
         if settings.BLAST['mock_backend']:
             self._qblast = _mock_qblast
@@ -45,6 +46,7 @@ class EntrezClient:
             settings.PROTEIN_ACCESSION_STRINGS_TO_IDS
 
     def blast(self, dna_sequence):
+        """Call out to NCBI servers."""
         qblast_response = self._qblast(
             self._program,
             self._db,
@@ -52,10 +54,12 @@ class EntrezClient:
             entrez_query=self._build_entrez_query()
         )
 
-        protein_id, accession_string = self.parse_blast_result(qblast_response)
+        protein_id, accession_string = self._parse_blast_result(
+            qblast_response
+        )
         return protein_id, accession_string
 
-    def parse_blast_result(self, qblast_response):
+    def _parse_blast_result(self, qblast_response):
         blast_result_xml = ET.fromstring(qblast_response.read())
         for hit_accession in blast_result_xml.iter(tag='Hit_accession'):
             accession_string = hit_accession.text
