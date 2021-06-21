@@ -56,7 +56,7 @@ describe('Protein Matcher', () => {
   });
 
   it('Displays search results and links to NCBI website.', () => {
-    cy.wait(5000);
+    cy.wait(8000);
     cy.get('table').should($el => {
       expect($el).to.contain('NC_000852');
       expect($el.find('a').attr('href')).to.eq('https://www.ncbi.nlm.nih.gov/nuccore/NC_000852');
