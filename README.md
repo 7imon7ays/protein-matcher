@@ -13,7 +13,13 @@ See it at [protein-matcher.herokuapp.com](https://protein-matcher.talktosimon.co
 
 ## Local development
 
-### 1. Start the server.
+Tested on macOS only.
+
+### 1. Install Docker.
+
+Follow the instructions on the [Docker website](https://docs.docker.com/desktop/).
+
+### 2. Start the server.
 
 ```bash
 git clone https://github.com/7imon7ays/protein-matcher
@@ -27,7 +33,7 @@ The web server and background worker processes will fail betwen the time that th
 
 After a few minutes, open your favorite browser and navigate to `localhost:3000` to start using the app.
 
-### 2. Run the test suite.
+### 3. Run the test suite.
 
 From the project root and with all the app components running in another tab.
 
@@ -35,7 +41,7 @@ From the project root and with all the app components running in another tab.
 make test
 ```
 
-### 3. Run the linter.
+### 5. Run the linter.
 
 Running the linter requires installing the project's dependencies locally.
 
