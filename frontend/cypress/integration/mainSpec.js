@@ -61,7 +61,6 @@ describe('Protein Matcher', () => {
       expect($el).to.contain('NC_000852');
       expect($el.find('a').attr('href')).to.eq('https://www.ncbi.nlm.nih.gov/nuccore/NC_000852');
 
-      // TODO: Match unmachable one only
       const $resultLogos = $el.find('tr:nth-child(3)').find('img');
       expect($resultLogos).attr('alt').to.eq('Not found');
     });

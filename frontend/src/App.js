@@ -1,13 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import {
-  Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import './App.css';
-import DnaUpload from './DnaUpload';
 import Examples from './Examples';
-import SearchResult from './SearchResult';
+import SearchResultsTable from './SearchResultsTable';
 import { FOUND, NOT_FOUND } from './constants';
 
 export default class App extends React.Component {
@@ -98,7 +95,6 @@ export default class App extends React.Component {
       });
   }
 
-  // TODO: Break down component.
   render() {
     const { recentSearches, searchString, selectedFile } = this.state;
 
@@ -109,36 +105,15 @@ export default class App extends React.Component {
         </header>
         <Grid container direction="column" alignItems="center" justify="center">
           <Grid item xs={12}>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell style={{ fontSize: '2em' }}>Sequence</TableCell>
-                    <TableCell style={{ fontSize: '2em' }} align="right">Protein ID</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell colSpan={2} style={{ padding: '0' }}>
-                      <DnaUpload
-                        onFileChange={this.onFileChange}
-                        registerNewSearch={this.registerNewSearch}
-                        runSearch={this.runSearch}
-                        updateSearchString={this.updateSearchString}
-                        searchString={searchString}
-                        isFileSelected={!!selectedFile}
-                      />
-                    </TableCell>
-                  </TableRow>
-                  {recentSearches.map((search, idx) => (
-                    <TableRow key={idx}>
-                      <TableCell style={{ maxWidth: '6em', overflow: 'scroll' }}>{search.dnaSequence}</TableCell>
-                      <TableCell align="right"><SearchResult search={search} /></TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <SearchResultsTable
+              onFileChange={this.onFileChange}
+              recentSearches={recentSearches}
+              registerNewSearch={this.registerNewSearch}
+              runSearch={this.runSearch}
+              searchString={searchString}
+              selectedFile={selectedFile}
+              updateSearchString={this.updateSearchString}
+            />
           </Grid>
           <Grid item xs={12}>
             <Examples />

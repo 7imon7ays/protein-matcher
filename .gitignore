@@ -20,3 +20,5 @@ staticfiles/*
 
 # Container data for local DB
 data/
+frontend/cypress/videos
+frontend/cypress/screenshots
