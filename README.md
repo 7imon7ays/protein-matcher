@@ -25,6 +25,8 @@ This launches the containerized web app components: the database, web server, ba
 
 The web server and background worker processes will fail betwen the time that the database is up and when it's ready to handle requests. This is expected.
 
+After a few minutes, open your favorite browser and navigate to `localhost:3000` to start using the app.
+
 ### 2. Run the test suite.
 
 From the project root and with all the app components running in another tab.
