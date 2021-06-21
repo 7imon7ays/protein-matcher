@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import {
+  Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+} from '@material-ui/core';
 
 import './App.css';
 import DnaUpload from './DnaUpload';
@@ -8,9 +10,9 @@ import Examples from './Examples';
 import SearchResult from './SearchResult';
 import { FOUND, NOT_FOUND } from './constants';
 
-export default class App extends React.Component  {
+export default class App extends React.Component {
   constructor() {
-    super()
+    super();
     this.state = { searchString: '', selectedFile: null, recentSearches: [] };
 
     this.onFileChange = this.onFileChange.bind(this);
@@ -19,55 +21,6 @@ export default class App extends React.Component  {
     this.runSearch = this.runSearch.bind(this);
     this.updateSearchString = this.updateSearchString.bind(this);
   }
-
-  // Input handlers.
-
-  updateSearchString({ target: { value }}) {
-    this.setState(state => ({ ...state, searchString: value }));
-  }
-
-  onFileChange({ target: { files }}) {
-    this.setState(state => ({ ...state, selectedFile: files[0] }))
-  }
-
-  runSearch() {
-    // Prefer text input over file upload because the file is easier to recover.
-    if (this.state.searchString !== '') {
-      axios.post('searches', { dnaSequence: this.state.searchString })
-        .then(({ data }) => {
-          this.setState(state => ({ ...state, searchString: '' }));
-          this.registerNewSearch(data);
-        });
-      return
-    }
-
-    if (this.state.selectedFile) {
-      // TODO: Support FASTA file formats by branching on file extension.
-      const formData = new FormData();
-      formData.append(
-        "dna_sequence",
-        this.state.selectedFile,
-        this.state.selectedFile.name
-      );
-
-      axios.post("searches", formData)
-        .then(({ data }) => {
-          this.setState(state => ({ ...state, selectedFile: null }));
-          this.registerNewSearch(data);
-        });
-    }
-  }
-
-  registerNewSearch(newSearch) {
-    // Don't hold more than 10 searches total.
-    const recentSearches = [newSearch, ...this.state.recentSearches].slice(0, 10);
-
-    this.setState(state => {
-      return {...state, recentSearches};
-    });
-  }
-
-  // Polling handlers.
 
   componentDidMount() {
     this.fetchSearches();
@@ -78,10 +31,61 @@ export default class App extends React.Component  {
     clearInterval(this.timer);
   }
 
+  // Input handlers.
+
+  onFileChange({ target: { files }}) {
+    this.setState((state) => ({ ...state, selectedFile: files[0] }))
+  }
+
+  updateSearchString({ target: { value }}) {
+    this.setState((state) => ({ ...state, searchString: value }));
+  }
+
+  runSearch() {
+    // Prefer text input over file upload because the file is easier to recover.
+    const { searchString } = this.state;
+    if (searchString !== '') {
+      axios.post('searches', { dnaSequence: searchString })
+        .then(({ data }) => {
+          this.setState((state) => ({ ...state, searchString: '' }));
+          this.registerNewSearch(data);
+        });
+      return;
+    }
+
+    const { selectedFile } = this.state;
+    if (selectedFile) {
+      // TODO: Support FASTA file formats by branching on file extension.
+      const formData = new FormData();
+      formData.append(
+        "dna_sequence",
+        selectedFile,
+        selectedFile.name,
+      );
+
+      axios.post('searches', formData)
+        .then(({ data }) => {
+          this.setState((state) => ({ ...state, selectedFile: null }));
+          this.registerNewSearch(data);
+        });
+    }
+  }
+
+  registerNewSearch(newSearch) {
+    let { recentSearches } = this.state;
+    // Don't hold more than 10 searches total.
+    recentSearches = [newSearch, ...recentSearches].slice(0, 10);
+
+    this.setState((state) => ({ ...state, recentSearches }));
+  }
+
+  // Polling handlers.
+
   refreshSearches() {
-    const hasNoPendingSearches = this.state.recentSearches.every(search => {
-      return search.state === FOUND || search.state === NOT_FOUND;
-    });
+    const { recentSearches } = this.state;
+    const hasNoPendingSearches = recentSearches.every(
+      (search) => search.state === FOUND || search.state === NOT_FOUND
+    );
     if (hasNoPendingSearches) return;
 
     this.fetchSearches();
@@ -89,12 +93,13 @@ export default class App extends React.Component  {
 
   fetchSearches() {
     axios.get('searches')
-    .then(({ data }) => {
-      this.setState(state => ({ ...state, recentSearches: data }));
-    });
+      .then(({ data }) => {
+        this.setState((state) => ({ ...state, recentSearches: data }));
+      });
   }
 
   // TODO: Break down component.
+  const { recentSearches, searchString, selectedFile } = this.state;
   render() {
     return (
       <div className="App">
@@ -119,12 +124,12 @@ export default class App extends React.Component  {
                         registerNewSearch={this.registerNewSearch}
                         runSearch={this.runSearch}
                         updateSearchString={this.updateSearchString}
-                        searchString={this.state.searchString}
-                        isFileSelected={!!this.state.selectedFile}
+                        searchString={searchString}
+                        isFileSelected={!!selectedFile}
                       />
                     </TableCell>
                   </TableRow>
-                  {this.state.recentSearches.map((search, idx) => (
+                  {recentSearches.map((search, idx) => (
                     <TableRow key={idx}>
                       <TableCell style={{ maxWidth: '6em', 'overflow': 'scroll' }}>{search.dnaSequence}</TableCell>
                       <TableCell align="right"><SearchResult search={search} /></TableCell>
