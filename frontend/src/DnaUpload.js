@@ -79,16 +79,6 @@ export default class DnaUpload extends React.Component {
             onKeyPress={this.handleKeyPress}
           />
         </Grid>
-        <Grid item xs={3}>
-          <Button
-            variant="contained"
-            onClick={runSearch}
-            style={styles.submitButton}
-            id="search"
-          >
-            <SearchSharp />
-          </Button>
-        </Grid>
         <Grid item xs={1}>
           <Button
             variant="contained"
@@ -98,6 +88,16 @@ export default class DnaUpload extends React.Component {
           >
             <PublishSharpIcon color={isFileSelected ? 'disabled' : 'action'} />
             <input type="file" hidden onChange={onFileChange} ref={this.hiddenFileUpload} />
+          </Button>
+        </Grid>
+        <Grid item xs={3}>
+          <Button
+            variant="contained"
+            onClick={runSearch}
+            style={styles.submitButton}
+            id="search"
+          >
+            <SearchSharp />
           </Button>
         </Grid>
       </Grid>
