@@ -69,7 +69,7 @@ Users do not log in. For now every new visitor is simply assigned a cookie so th
 
 Protein Matcher uses [Django Background Tasks](https://django-background-tasks.readthedocs.io/) to search for matches in the background without blocking the user. When a search fails it's retried a certain number of times before it fails permanently. For now users have no way of knowing if a search is very slow or being retried many times or has permanently failed.
 
-To check if a search has failed permanently, the maintainer has to check its corresponding background task.
+To check whether a search has failed permanently, the maintainer has to look up its corresponding background task.
 
 
 ## Browser support
