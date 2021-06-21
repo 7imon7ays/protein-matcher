@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-o1y3xeaugwxrmo^l(8)_hxetdljg)4(sgi5--%fww$cm1@et!s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['protein-matcher.herokuapp.com']
+ALLOWED_HOSTS = ['protein-matcher.talktosimon.com', 'protein-matcher.herokuapp.com']
 
 
 # Application definition
