@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=protein_matcher_db
       - POSTGRES_USER=postgres
@@ -12,7 +12,7 @@ services:
     ports:
       - "5432:5432"
   web:
-    build: .
+    image: 7imon7ays/protein-matcher_web:latest
     command: [sh, -c, "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
     environment:
       - DJANGO_DEVELOPMENT=true
@@ -24,7 +24,7 @@ services:
     depends_on:
       - db
   background_worker:
-    build: .
+    image: 7imon7ays/protein-matcher_background_worker:latest
     command: ["python", "manage.py", "process_tasks"]
     environment:
       - DJANGO_DEVELOPMENT=true
@@ -34,7 +34,7 @@ services:
     depends_on:
       - web
   frontend:
-    build: ./frontend
+    image: 7imon7ays/protein-matcher_frontend:latest
     command: ["yarn", "start"]
     volumes:
       - ./frontend:/frontend
@@ -44,3 +44,5 @@ services:
     depends_on:
       - web
 
+volumes:
+  pgdata:
