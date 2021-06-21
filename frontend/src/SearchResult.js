@@ -3,6 +3,17 @@ import { NCBI_PATH, FOUND, NOT_FOUND } from './constants';
 import dnaLogoColor from './dna-logo-color.png';
 import dnaLogoGray from './dna-logo-gray.png';
 
+const ResultLink = ({ search }) => (
+  <a
+    href={NCBI_PATH + search.proteinId}
+    className="resultLink"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {search.proteinId}
+  </a>
+);
+
 const ResultLogo = ({ logo, isStillLooking }) => (
   <img
     style={{ height: '1.5em', width: '1.5em' }}
@@ -16,7 +27,7 @@ export default function SearchResult({ search }) {
   let display;
 
   if (search.state === FOUND) {
-    display = <a href={NCBI_PATH + search.proteinId} className="resultLink">{search.proteinId}</a>;
+    display = <ResultLink search={search} />;
   } else if (search.state === NOT_FOUND) {
     display = <ResultLogo logo={dnaLogoGray} isStillLooking={false} />;
   } else {
