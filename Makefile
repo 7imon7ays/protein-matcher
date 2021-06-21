@@ -1,12 +1,11 @@
 start:
 	docker compose up
 
+lint:
+	flake8 . --exclude=.git,env,matcher/migrations && cd frontend && yarn run eslint src && echo 'No lints found!'
+
 logs:
 	heroku logs -a protein-matcher
 
-migrate-prod:
-	heroku run python manage.py migrate -a protein-matcher
-
-shell:
-	python manage.py shell
-
+test:
+	cd frontend && yarn run cypress run
