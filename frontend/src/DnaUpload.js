@@ -1,18 +1,25 @@
 import React from 'react';
-import { Button, Grid, TextField, withStyles } from '@material-ui/core';
+import {
+  Button, Grid, TextField, withStyles,
+} from '@material-ui/core';
 import PublishSharpIcon from '@material-ui/icons/PublishSharp';
 import SearchSharp from '@material-ui/icons/SearchSharp';
 
 const styles = {
   uploadButton: {
-    display: 'inline', color: 'white',
-    backgroundColor: '#70717b', fontSize: '.8em',
-    minWidth: 0, padding: '.5em'
+    display: 'inline',
+    color: 'white',
+    backgroundColor: '#70717b',
+    fontSize: '.8em',
+    minWidth: 0,
+    padding: '.5em',
   },
   submitButton: {
-    display: 'inline', color: 'white',
-    backgroundColor: "#562c84", fontSize: '.8em'
-  }
+    display: 'inline',
+    color: 'white',
+    backgroundColor: '#562c84',
+    fontSize: '.8em',
+  },
 };
 
 const DnaSequenceField = withStyles({
@@ -26,11 +33,11 @@ const DnaSequenceField = withStyles({
     },
     '& .MuiInput-underline:after': {
       borderBottom: 'none',
-    }
-  }
+    },
+  },
 })(TextField);
 
- export default class DnaUpload extends React.Component {
+export default class DnaUpload extends React.Component {
   constructor() {
     super();
     this.handleClickUpload = this.handleClickUpload.bind(this);
@@ -43,10 +50,18 @@ const DnaSequenceField = withStyles({
   }
 
   handleKeyPress({ key }) {
-   if (key === 'Enter') this.props.runSearch();
+    if (key === 'Enter') {
+      // To satisfy linter.
+      const { runSearch } = this.props;
+      runSearch();
+    }
   }
 
   render() {
+    const {
+      isFileSelected, onFileChange, runSearch, searchString, updateSearchString,
+    } = this.props;
+
     return (
       <Grid container direction="row" alignItems="center" justify="space-around">
         <Grid item xs={7}>
@@ -55,18 +70,19 @@ const DnaSequenceField = withStyles({
             label="DNA sequence"
             fullWidth
             margin="dense"
-            InputProps={{ style: { paddingLeft: '5%' }}}
-            onChange={this.props.updateSearchString}
-            value={this.props.searchString}
+            InputProps={{ style: { paddingLeft: '5%' } }}
+            onChange={updateSearchString}
+            value={searchString}
             onKeyPress={this.handleKeyPress}
           />
         </Grid>
         <Grid item xs={3}>
           <Button
             variant="contained"
-            onClick={this.props.runSearch}
+            onClick={runSearch}
             style={styles.submitButton}
-            id="search">
+            id="search"
+          >
             <SearchSharp />
           </Button>
         </Grid>
@@ -77,8 +93,8 @@ const DnaSequenceField = withStyles({
             onClick={this.handleClickUpload}
             id="upload"
           >
-            <PublishSharpIcon color={this.props.isFileSelected ? 'disabled' : 'action'} />
-            <input type="file" hidden onChange={this.props.onFileChange} ref={this.hiddenFileUpload} />
+            <PublishSharpIcon color={isFileSelected ? 'disabled' : 'action'} />
+            <input type="file" hidden onChange={onFileChange} ref={this.hiddenFileUpload} />
           </Button>
         </Grid>
       </Grid>

@@ -17,7 +17,7 @@ export default function SearchResult({ search }) {
 
   if (search.state === FOUND) {
     display = <a href={NCBI_PATH + search.proteinId} className="resultLink">{search.proteinId}</a>;
-  } else if (search.state === NOT_FOUND ) {
+  } else if (search.state === NOT_FOUND) {
     display = <ResultLogo logo={dnaLogoGray} isStillLooking={false} />;
   } else {
     // Still looking.

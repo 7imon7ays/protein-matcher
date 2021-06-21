@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {
-  Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+  Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 } from '@material-ui/core';
 
 import './App.css';
@@ -33,11 +33,11 @@ export default class App extends React.Component {
 
   // Input handlers.
 
-  onFileChange({ target: { files }}) {
-    this.setState((state) => ({ ...state, selectedFile: files[0] }))
+  onFileChange({ target: { files } }) {
+    this.setState((state) => ({ ...state, selectedFile: files[0] }));
   }
 
-  updateSearchString({ target: { value }}) {
+  updateSearchString({ target: { value } }) {
     this.setState((state) => ({ ...state, searchString: value }));
   }
 
@@ -58,7 +58,7 @@ export default class App extends React.Component {
       // TODO: Support FASTA file formats by branching on file extension.
       const formData = new FormData();
       formData.append(
-        "dna_sequence",
+        'dna_sequence',
         selectedFile,
         selectedFile.name,
       );
@@ -84,7 +84,7 @@ export default class App extends React.Component {
   refreshSearches() {
     const { recentSearches } = this.state;
     const hasNoPendingSearches = recentSearches.every(
-      (search) => search.state === FOUND || search.state === NOT_FOUND
+      (search) => (search.state === FOUND || search.state === NOT_FOUND),
     );
     if (hasNoPendingSearches) return;
 
@@ -99,8 +99,9 @@ export default class App extends React.Component {
   }
 
   // TODO: Break down component.
-  const { recentSearches, searchString, selectedFile } = this.state;
   render() {
+    const { recentSearches, searchString, selectedFile } = this.state;
+
     return (
       <div className="App">
         <header className="App-header">
@@ -131,7 +132,7 @@ export default class App extends React.Component {
                   </TableRow>
                   {recentSearches.map((search, idx) => (
                     <TableRow key={idx}>
-                      <TableCell style={{ maxWidth: '6em', 'overflow': 'scroll' }}>{search.dnaSequence}</TableCell>
+                      <TableCell style={{ maxWidth: '6em', overflow: 'scroll' }}>{search.dnaSequence}</TableCell>
                       <TableCell align="right"><SearchResult search={search} /></TableCell>
                     </TableRow>
                   ))}
@@ -146,4 +147,4 @@ export default class App extends React.Component {
       </div>
     );
   }
-};
+}
