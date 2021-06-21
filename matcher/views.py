@@ -56,7 +56,9 @@ class FrontendAppView(View):
     Serves the compiled frontend entry point (only works if you have run `yarn
     build`).
     """
-    index_file_path = os.path.join(settings.REACT_APP_DIR, 'build', 'index.html')
+    index_file_path = os.path.join(
+        settings.REACT_APP_DIR, 'build', 'index.html'
+    )
 
     def get(self, request):
         # Test DB connection:
@@ -75,4 +77,3 @@ class FrontendAppView(View):
                 """,
                 status=501,
             )
-

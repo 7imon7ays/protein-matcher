@@ -6,4 +6,4 @@ class MatcherConfig(AppConfig):
     name = 'matcher'
 
     def ready(self):
-        import matcher.signals.handlers
+        import matcher.signals.handlers  # noqa
