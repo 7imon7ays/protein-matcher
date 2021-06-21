@@ -13,15 +13,7 @@ services:
       - "5432:5432"
   web:
     build: .
-    command: [
-      "sh",
-      "./wait-for-postgres.sh",
-      "db:5432",
-      "--",
-      sh,
-      -c,
-      "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    ]
+    command: [sh, -c, "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
     environment:
       - DJANGO_DEVELOPMENT=true
     volumes:

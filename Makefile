@@ -11,4 +11,5 @@ logs:
 	heroku logs -a protein-matcher
 
 test:
-	cd frontend && yarn install && run cypress run
+	cd frontend && yarn install && yarn run cypress run
+
