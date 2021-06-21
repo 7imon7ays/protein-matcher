@@ -84,6 +84,7 @@ The web client was tested on macOS Chrome, macOS Firefox, macOS Safari, iOS Chro
 
 ## Other possible improvements
 
+- File uploading could be more intuitive. It's not immediately obvious that the user has to click the search button once they've selected a file.
 - Add unit tests, especially for server code.
 - Support FASTA format in file upload.
 - Report to the user when a search has failed too many times and will no longer be retried.
