@@ -1,18 +1,40 @@
 describe('Protein Matcher', () => {
   before(() => Cypress.Cookies.defaults({ preserve: ['sessionid', 'csrftoken'] }));
 
-  it('Runs searches via text and file inputs.', () => {
+  it('Shows no search history for new visitors', () => {
     cy.clearCookie('sessionid');
     cy.visit('/');
 
-    cy.get('table').should($el => {
-      expect($el.find('tr')).length(2); // Two rows appear by default
+    // Two rows appear by default.
+    cy.get('table').should($el => { expect($el.find('tr')).length(2)});
+  });
+
+  it('Runs searches via text input and displays up to ten search results only.', () => {
+    let dnaSequence;
+    // Run twelve searches while preserving order of execution.
+    var genArr = Array.from({ length: 12 }, (_, k) => k + 1);
+    cy.wrap(genArr).each((i) => {
+      dnaSequence = 'ATG'.repeat(i);
+      cy.get('input[type="text"]').type(dnaSequence).type('{enter}');
     });
 
-    // Backend mock won't find a match based on settings_dev.
+    // Backend mock won't find a match for this sequence based on settings_dev.
     cy.focused().type(Cypress.env('unmatchableSequence'));
     cy.get('#search').click();
 
+    cy.get('table').should($el => {
+      expect($el.find('tr')).length(12);
+
+      const $firstRow = $el.find('tr:nth-child(2)');
+      expect($firstRow.find('img')).attr('alt').to.eq('Looking...');
+      expect($firstRow).to.contain(Cypress.env('unmatchableSequence'));
+
+      const $lastRow = $el.find('tr').last();
+      expect($lastRow).to.contain('ATG'.repeat(4));
+    });
+  });
+
+  it('Runs searches via file input.', () => {
     cy.fixture('dnaSequence.txt').then(fileContent => {
       cy.get('input[type="file"]').attachFile({
           fileContent: fileContent.toString(),
@@ -26,25 +48,18 @@ describe('Protein Matcher', () => {
   it('Preserves searches for the current user.', () => {
     cy.reload();
     cy.get('table').should($el => {
+      expect($el).to.contain('AATGTTTTATTTGGAATCTTTTTGCATATAT'); // From the file fixture above.
       expect($el).to.contain(Cypress.env('unmatchableSequence'));
-      expect($el).to.contain('AATGTTTTATTTGGAATCTTTTTGCATATAT');
-
-      expect($el.find('tr')).length(4);
-      const $resultLogos = $el.find('tr').find('img');
-      expect($resultLogos).length(2);
-      expect($resultLogos).attr('alt').to.eq('Looking...');
     });
   });
 
   it('Displays search results and links to NCBI website.', () => {
-    cy.wait(1500); // Give successful search a head start.
     cy.get('table').should($el => {
       expect($el).to.contain('NC_000852');
       expect($el.find('a').attr('href')).to.eq('https://www.ncbi.nlm.nih.gov/nuccore/NC_000852');
 
-      expect($el.find('tr')).length(4);
-      const $resultLogos = $el.find('tr').find('img');
-      expect($resultLogos).length(1);
+      // TODO: Match unmachable one only
+      const $resultLogos = $el.find('tr:nth-child(3)').find('img');
       expect($resultLogos).attr('alt').to.eq('Not found');
     });
   });
@@ -56,4 +71,4 @@ describe('Protein Matcher', () => {
     // No search history.
     cy.get('table').should($el => { expect($el.find('tr')).length(2)});
   });
-})
+});
