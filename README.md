@@ -9,7 +9,7 @@ Demo web app to match a strand of DNA to a protein that it helps encode.
 
 ## See it live
 
-See it at [protein-matcher.talktosimon.com](https://protein-matcher.talktosimon.com).
+[protein-matcher.talktosimon.com](https://protein-matcher.talktosimon.com)
 
 ## Local development
 
