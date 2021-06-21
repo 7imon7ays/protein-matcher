@@ -29,7 +29,7 @@ make
 
 This launches the containerized web app components: the database, web server, background worker, and frontend build server. They will claim ports 3000, 5432, and 8000. Make sure you don't have another process, such as another PostgreSQL server, listening on any of those.
 
-The web server and background worker processes will fail betwen the time that the database is up and when it's ready to handle requests. This is expected.
+The web server and background worker processes may repeatedly fail and restart betwen the time that the database is up and when it's ready to handle requests. This is expected.
 
 After a few minutes, open your favorite browser and navigate to `localhost:3000` to start using the app.
 

@@ -81,6 +81,7 @@ class EntrezClient:
             # Ignore subsequent matches.
             # TODO: Handle value error in unlikely scenario that match from
             # and match to don't come back as integers.
+            # TODO: Return a dict or named tuple.
             return protein_id, accession_string, int(match_from), int(match_to)
 
         return ('', '', '', '',)  # No matches found.
