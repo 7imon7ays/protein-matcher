@@ -1,3 +1,6 @@
+start_fresh:
+	mkdir -p data/db && docker compose up --force-recreate --build
+
 start:
 	docker compose up
 
@@ -8,4 +11,4 @@ logs:
 	heroku logs -a protein-matcher
 
 test:
-	cd frontend && yarn run cypress run
+	cd frontend && yarn install && run cypress run

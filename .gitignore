@@ -19,6 +19,6 @@ node_modules
 staticfiles/*
 
 # Container data for local DB
-data/
+data/db/
 frontend/cypress/videos
 frontend/cypress/screenshots
