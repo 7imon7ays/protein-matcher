@@ -16,6 +16,7 @@ describe('Protein Matcher', () => {
     cy.wrap(genArr).each((i) => {
       dnaSequence = 'ATG'.repeat(i);
       cy.get('input[type="text"]').type(dnaSequence).type('{enter}');
+      cy.wait(200);
     });
 
     // Backend mock won't find a match for this sequence based on settings_dev.
@@ -23,11 +24,12 @@ describe('Protein Matcher', () => {
     cy.get('#search').click();
 
     cy.get('table').should($el => {
-      expect($el.find('tr')).length(12);
-
       const $firstRow = $el.find('tr:nth-child(2)');
+      // Last search still running.
       expect($firstRow.find('img')).attr('alt').to.eq('Looking...');
       expect($firstRow).to.contain(Cypress.env('unmatchableSequence'));
+
+      expect($el.find('tr')).length(12);
 
       const $lastRow = $el.find('tr').last();
       expect($lastRow).to.contain('ATG'.repeat(4));
@@ -54,6 +56,7 @@ describe('Protein Matcher', () => {
   });
 
   it('Displays search results and links to NCBI website.', () => {
+    cy.wait(5000);
     cy.get('table').should($el => {
       expect($el).to.contain('NC_000852');
       expect($el.find('a').attr('href')).to.eq('https://www.ncbi.nlm.nih.gov/nuccore/NC_000852');
