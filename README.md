@@ -17,7 +17,7 @@ Tested on macOS only.
 
 ### 1. Install Docker.
 
-Follow the instructions on the [Docker website](https://docs.docker.com/desktop/).
+Follow the instructions on the [Docker website](https://docs.docker.com/desktop/). Development on Protein Matcher requires the `docker` CLI.
 
 ### 2. Start the server.
 
