@@ -1,3 +1,4 @@
+// TODO: Add CLI scripts to set up and tear down a test DB.
 describe('Protein Matcher', () => {
   before(() => Cypress.Cookies.defaults({ preserve: ['sessionid', 'csrftoken'] }));
 
@@ -59,6 +60,8 @@ describe('Protein Matcher', () => {
     cy.wait(8000);
     cy.get('table').should($el => {
       expect($el).to.contain('NC_000852');
+      expect($el).to.contain('1'); // Mock match_from.
+      expect($el).to.contain('70'); // Mock match_to.
       expect($el.find('a').attr('href')).to.eq('https://www.ncbi.nlm.nih.gov/nuccore/NC_000852');
 
       const $resultLogos = $el.find('tr:nth-child(3)').find('img');

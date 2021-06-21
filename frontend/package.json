@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "cypress": "^7.5.0",
     "cypress-file-upload": "^5.0.7",
+    "fork-me-on-github": "^1.0.6",
     "install-peerdeps": "^3.0.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

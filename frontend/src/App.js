@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import ForkMeOnGithub from 'fork-me-on-github';
 import { Grid } from '@material-ui/core';
 
 import './App.css';
 import Examples from './Examples';
 import SearchResultsTable from './SearchResultsTable';
-import { FOUND, NOT_FOUND } from './constants';
+import { FOUND, NOT_FOUND, GITHUB_REPO } from './constants';
 
 /**
  * Application root.
@@ -104,6 +105,7 @@ export default class App extends React.Component {
 
     return (
       <div className="App">
+        <ForkMeOnGithub repo={GITHUB_REPO}/>
         <header className="App-header">
           <h1>Protein Matcher</h1>
         </header>

@@ -23,13 +23,15 @@ export default function SearchResultsTable({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell style={{ fontSize: '2em' }}>Sequence</TableCell>
-            <TableCell style={{ fontSize: '2em' }} align="right">Protein ID</TableCell>
+            <TableCell style={{ fontSize: '1em' }}>Sequence</TableCell>
+            <TableCell style={{ fontSize: '1em' }} align="justify">Match Start Position</TableCell>
+            <TableCell style={{ fontSize: '1em' }} align="justify">Match End Position</TableCell>
+            <TableCell style={{ fontSize: '1em' }} align="justify">Protein ID</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell colSpan={2} style={{ padding: '0' }}>
+            <TableCell colSpan={4} style={{ padding: '0' }}>
               <DnaUpload
                 onFileChange={onFileChange}
                 registerNewSearch={registerNewSearch}
@@ -41,10 +43,7 @@ export default function SearchResultsTable({
             </TableCell>
           </TableRow>
           {recentSearches.map((search, idx) => (
-            <TableRow key={idx}>
-              <TableCell style={{ maxWidth: '6em', overflow: 'scroll' }}>{search.dnaSequence}</TableCell>
-              <TableCell align="right"><SearchResult search={search} /></TableCell>
-            </TableRow>
+            <SearchResult search={search} key={idx} />
           ))}
         </TableBody>
       </Table>

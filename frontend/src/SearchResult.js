@@ -1,4 +1,6 @@
 import React from 'react';
+
+import { TableCell, TableRow } from '@material-ui/core';
 import { NCBI_PATH, FOUND, NOT_FOUND } from './constants';
 import dnaLogoColor from './dna-logo-color.png';
 import dnaLogoGray from './dna-logo-gray.png';
@@ -27,19 +29,26 @@ const ResultLogo = ({ logo, isStillLooking }) => (
  * Display a search result by branching on its state.
  */
 export default function SearchResult({ search }) {
-  let display;
+  let proteinResult;
 
   if (search.state === FOUND) {
-    display = <ResultLink search={search} />;
+    proteinResult = <ResultLink search={search} />;
   } else if (search.state === NOT_FOUND) {
-    display = <ResultLogo logo={dnaLogoGray} isStillLooking={false} />;
+    proteinResult = <ResultLogo logo={dnaLogoGray} isStillLooking={false} />;
   } else {
     // Still looking.
     // TODO: Add branch for searches that ran out of retries.
-    display = <ResultLogo logo={dnaLogoColor} isStillLooking />;
+    proteinResult = <ResultLogo logo={dnaLogoColor} isStillLooking />;
   }
 
   return (
-    <span>{display}</span>
+    <TableRow>
+      <TableCell style={{ maxWidth: '6em', overflow: 'scroll' }}>{search.dnaSequence}</TableCell>
+      <TableCell>{search.matchFrom}</TableCell>
+      <TableCell>{search.matchTo}</TableCell>
+      <TableCell align="right">
+        <span>{proteinResult}</span>
+      </TableCell>
+    </TableRow>
   );
 }

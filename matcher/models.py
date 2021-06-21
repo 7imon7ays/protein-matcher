@@ -22,6 +22,8 @@ class Search(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     dna_sequence = models.TextField()
     protein_id = models.CharField(max_length=20)
+    match_from = models.IntegerField(blank=True, null=True)
+    match_to = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     state = models.CharField(
         max_length=5, choices=SEARCH_STATES, default=READY
@@ -45,7 +47,9 @@ class Search(models.Model):
             'id': self.id,
             'state': self.state,
             'proteinId': self.protein_id,
-            'dnaSequence': self.dna_sequence
+            'dnaSequence': self.dna_sequence,
+            'matchFrom': self.match_from,
+            'matchTo': self.match_to
         }
 
     def mark_running(self):

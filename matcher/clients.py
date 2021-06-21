@@ -54,23 +54,36 @@ class EntrezClient:
             entrez_query=self._build_entrez_query()
         )
 
-        protein_id, accession_string = self._parse_blast_result(
-            qblast_response
-        )
-        return protein_id, accession_string
+        protein_id, accession_string, match_from, match_to =\
+            self._parse_blast_result(qblast_response)
+        return protein_id, accession_string, match_from, match_to
 
     def _parse_blast_result(self, qblast_response):
+        """Get the accession string and map it to a known protein ID.
+
+        Any hit in the response is relevant since it made it past the filter of
+        the Entrez query.
+        """
         blast_result_xml = ET.fromstring(qblast_response.read())
-        for hit_accession in blast_result_xml.iter(tag='Hit_accession'):
+        # Take whichever hit comes first.
+        hit_elements = blast_result_xml.iter(tag='Hit')
+
+        for hit_element in hit_elements:
+            hit_accession = hit_element.find('Hit_accession')
             accession_string = hit_accession.text
+            protein_id =\
+                self._protein_accession_strings_to_ids[accession_string]
+            # TODO: What is an HSP?
+            hsp = hit_element.find('Hit_hsps').find('Hsp')
+            match_from = hsp.find('Hsp_hit-from').text
+            match_to = hsp.find('Hsp_hit-to').text
 
-            if accession_string in self._protein_accession_strings_to_ids:
-                protein_id =\
-                    self._protein_accession_strings_to_ids[accession_string]
-                # Ignore subsequent matches.
-                return protein_id, accession_string
+            # Ignore subsequent matches.
+            # TODO: Handle value error in unlikely scenario that match from
+            # and match to don't come back as integers.
+            return protein_id, accession_string, int(match_from), int(match_to)
 
-        return ('', '',)
+        return ('', '', '', '',)  # No matches found.
 
     def _build_entrez_query(self):
         """

@@ -17,9 +17,8 @@ def match_to_protein(search_id):
     entrez_client = EntrezClient()
 
     try:
-        protein_id, accession_string = entrez_client.blast(
-            search_instance.dna_sequence
-        )
+        protein_id, accession_string, match_from, match_to =\
+            entrez_client.blast(search_instance.dna_sequence)
     # Record in the searches table that this search encountered an error.
     except:  # noqa TODO: Find out what errors exactly the API call can throw.
         # TODO: Make it easier to tell if the job has retries left.
@@ -35,6 +34,8 @@ def match_to_protein(search_id):
 
     search_instance.protein_id = protein_id
     search_instance.accession_string = accession_string
+    search_instance.match_from = match_from
+    search_instance.match_to = match_to
     search_instance.mark_found()
     print(
         'Completed search with attributes %s.' % str(search_instance.as_dict())

@@ -10,3 +10,5 @@ export const NCBI_PATH = 'https://www.ncbi.nlm.nih.gov/nuccore/';
 
 export const FOUND = 'FOUND';
 export const NOT_FOUND = 'EMPTY';
+
+export const GITHUB_REPO = "https://github.com/7imon7ays/protein-matcher";
