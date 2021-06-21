@@ -20,8 +20,13 @@ def match_to_protein(search_id):
         protein_id, accession_string, match_from, match_to =\
             entrez_client.blast(search_instance.dna_sequence)
     # Record in the searches table that this search encountered an error.
-    except:  # noqa TODO: Find out what errors exactly the API call can throw.
-        # TODO: Make it easier to tell if the job has retries left.
+    except Exception as exception:  # noqa TODO: Find out what errors exactly the API call can throw.
+        if 'Query contains no sequence data' in str(exception):
+            print('Entrez reports no sequence data in "%s".' % search_instance.dna_sequence)
+            print('Marking search as not found.')
+            search_instance.mark_not_found()
+            return
+        # TODO: Make it easier to tell if the job has no more retries left.
         search_instance.mark_error()
         raise
 
