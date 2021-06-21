@@ -1,21 +1,9 @@
-@media (prefers-reduced-motion: no-preference) {
-  .spinner {
-    -webkit-animation: spinner-spin infinite 15s linear;
-    animation: spinner-spin infinite 15s linear;
-  }
+.spinner {
+  animation: spinner-spin infinite 15s linear;
+  -webkit-animation: spinner-spin infinite 15s linear;
 }
 
 @keyframes spinner-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* TODO: Fix spin animation on mobile. /*
-@-webkit-keyframes spinner-spin {
   from {
     transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
