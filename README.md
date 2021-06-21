@@ -33,6 +33,8 @@ The web server and background worker processes will fail betwen the time that th
 
 After a few minutes, open your favorite browser and navigate to `localhost:3000` to start using the app.
 
+See the Docker images used to set up this development environment [here](https://hub.docker.com/u/7imon7ays).
+
 ### 3. Run the test suite.
 
 From the project root and with all the app components running in another tab.
