@@ -21,7 +21,9 @@ cd protein-matcher
 make
 ```
 
-This launches the containerized web app components: the web server, database, frontend build server, and background worker. These will claim ports 3000, 5432, and 8000. Make sure you don't have another process, such as another PostgreSQL server, listening on any of those.
+This launches the containerized web app components: the database, web server, background worker, and frontend build server. They will claim ports 3000, 5432, and 8000. Make sure you don't have another process, such as another PostgreSQL server, listening on any of those.
+
+The web server and background worker processes will fail betwen the time that the database is up and when it's ready to handle requests. This is expected.
 
 ### 2. Run the test suite.
 
@@ -29,6 +31,19 @@ From the project root and with all the app components running in another tab.
 
 ```bash
 make test
+```
+
+### 3. Run the linter.
+
+Running the linter requires installing the project's dependencies locally.
+
+```bash
+pip install virtualenv
+virtualenv env
+. env/bin/activate
+pip install -r requirements.txt
+yarn install --cwd frontend
+make lint
 ```
 
 
@@ -75,4 +90,3 @@ The web client was tested on macOS Chrome, macOS Firefox, macOS Safari, iOS Chro
 - Allow users to log in and out.
 - Rate limit users so that they don't abuse the NCBI servers.
 - Add automation to ensure periodically that the mapping from accession strings to protein IDs is up to date.
-
