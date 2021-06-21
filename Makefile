@@ -1,5 +1,5 @@
-start_fresh:
-	mkdir -p data/db && chmod 0700 data && docker compose up --force-recreate --build
+start_clean:
+	docker build . && docker build ./frontend && mkdir -p data/db && chmod 0700 data && docker compose up
 
 start:
 	docker compose up
