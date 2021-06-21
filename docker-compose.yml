@@ -13,13 +13,22 @@ services:
       - "5432:5432"
   web:
     build: .
-    command: [sh, -c, "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+    command: [
+      "sh",
+      "./wait-for-postgres.sh",
+      "db:5432",
+      "--",
+      sh,
+      -c,
+      "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    ]
     environment:
       - DJANGO_DEVELOPMENT=true
     volumes:
       - .:/code
     ports:
       - "8000:8000"
+    restart: always
     depends_on:
       - db
   background_worker:
@@ -29,6 +38,7 @@ services:
       - DJANGO_DEVELOPMENT=true
     volumes:
       - .:/code
+    restart: always
     depends_on:
       - web
   frontend:
@@ -36,6 +46,9 @@ services:
     command: ["yarn", "start"]
     volumes:
       - ./frontend:/frontend
+      - ./frontend/node_modules
     ports:
       - "3000:3000"
+    depends_on:
+      - web
 
