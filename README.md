@@ -88,17 +88,18 @@ The web client was tested on macOS Chrome, macOS Firefox, macOS Safari, iOS Chro
 
 ### Known compatibility issues
 
-- The overflow property behaves differently in Firefox.
+- The lack of a `manifest.json` file in the frontend code causes Google Chrome to print a syntax error to the console.
+- The `overflow` property behaves differently in Firefox.
 - iOS Safari does not display the keyboard when the page loads in spite of the text field's `autofocus` property.
 
 
-## Other possible improvements
+## Future improvements
 
 - File uploading could be more intuitive. It's not immediately obvious that the user has to click the search button once they've selected a file.
 - Add unit tests, especially for server code.
-- Support FASTA format in file upload.
-- Report to the user when a search has failed too many times and will no longer be retried.
-- Validate the user's input both client- and server-side. DNA sequences should have a minimum length and only consist of As, Gs, Cs, and Ts. The app could also reject DNA sequences that contain the right characters but no known codons before sending a request to the NCBI servers.
+- Support FASTA format for file upload.
+- Display when a search has failed too many times and will no longer be retried.
+- Validate the user's input both client- and server-side. DNA sequences should have a minimum length and consist of As, Gs, Cs, and Ts only. The app could also reject DNA sequences that contain the right characters but no known codons before sending a request to the NCBI servers.
 - Cache previously matched sequences in Redis to further reduce API calls. Sequences can be cached across users.
 - Allow users to log in and out.
 - Rate limit users so that they don't abuse the NCBI servers.
