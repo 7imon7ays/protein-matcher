@@ -31,9 +31,9 @@ This launches the containerized web app components: the database, web server, ba
 
 The web server and background worker processes may repeatedly fail and restart betwen the time that the database is up and when it's ready to handle requests. This is expected.
 
-After a few minutes, open your favorite browser and navigate to `localhost:3000` to start using the app.
+After a few minutes, open your favorite browser and navigate to `localhost:3000` to start using the app. Note that by default the development server stubs out the third party API and produces fake results. Edit [this setting](protein_matcher/settings_dev.py#L17) to enable real matching.
 
-See the Docker images used to set up this development environment [here](https://hub.docker.com/u/7imon7ays).
+See the Docker images used to set up the development environment [here](https://hub.docker.com/u/7imon7ays).
 
 ### 3. Run the test suite.
 
@@ -42,6 +42,8 @@ From the project root and with all the app components running in another tab.
 ```bash
 make test
 ```
+
+For now the test suite uses the same stubbed out backend as the development environment, which sleeps for a few seconds to simulate the API call. This can lead to occasionally flaky assertions.
 
 ### 5. Run the linter.
 
