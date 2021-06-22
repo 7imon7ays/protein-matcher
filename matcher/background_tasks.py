@@ -22,7 +22,11 @@ def match_to_protein(search_id):
     # Record in the searches table that this search encountered an error.
     except Exception as exception:  # noqa TODO: Find out what errors exactly the API call can throw.
         if 'Query contains no sequence data' in str(exception):
-            print('Entrez reports no sequence data in "%s".' % search_instance.dna_sequence)
+            print(
+                'Entrez reports no sequence data in "%s".' % (
+                    search_instance.dna_sequence,
+                )
+            )
             print('Marking search as not found.')
             search_instance.mark_not_found()
             return
